@@ -5,7 +5,10 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-
+#include "Player/AuraPlayerState.h"
+#include "AbilitySystemComponent.h"
+#include "DrawDebugHelpers.h"
+#include "Ability/AuraAttributeSet.h"
 AAuraChrarcter::AAuraChrarcter()
 {
 	GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -16,5 +19,31 @@ AAuraChrarcter::AAuraChrarcter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
+
+}
+
+//控制器控制角色时调用，abillity给到角色
+void AAuraChrarcter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	InitAbilitySystemComponent();
+}
+
+
+//客户端接收到 PlayerState 的复制更新时自动调用，同步数据
+void AAuraChrarcter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	InitAbilitySystemComponent();
+}
+
+void AAuraChrarcter::InitAbilitySystemComponent()
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState,this);
+	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
+	AttributeSet = AuraPlayerState->GetAttributeSet();
+	//UE_LOG(LogTemp, Warning, TEXT("ASC Init: %s"), *GetNameSafe(AbilitySystemComponent));
 
 }

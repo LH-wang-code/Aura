@@ -19,5 +19,14 @@ class RPGGAME_AURA_API AAuraChrarcter : public AAuraCharacterBase
 public:
 
 	AAuraChrarcter();
+
+
+protected:
+	virtual void PossessedBy(AController* NewController)override;
+	virtual void OnRep_PlayerState()override;
+	//virtual void Tick(float DeltaTime)override;
+private:
+	void InitAbilitySystemComponent();
+
 	
 };
