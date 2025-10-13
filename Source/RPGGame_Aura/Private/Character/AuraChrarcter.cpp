@@ -9,6 +9,8 @@
 #include "AbilitySystemComponent.h"
 #include "DrawDebugHelpers.h"
 #include "Ability/AuraAttributeSet.h"
+#include "Player/AuraPlayerController.h"
+#include "UI/HUD/AuraHUD.h"
 AAuraChrarcter::AAuraChrarcter()
 {
 	GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -45,5 +47,13 @@ void AAuraChrarcter::InitAbilitySystemComponent()
 	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 	AttributeSet = AuraPlayerState->GetAttributeSet();
 	//UE_LOG(LogTemp, Warning, TEXT("ASC Init: %s"), *GetNameSafe(AbilitySystemComponent));
+
+
+	if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController()))
+	{
+		AAuraHUD* AuraHUD=Cast<AAuraHUD>(AuraPlayerController->GetHUD());
+		AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
+
+	}
 
 }
