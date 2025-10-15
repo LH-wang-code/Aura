@@ -58,7 +58,6 @@ void AAuraPlayerController::BeginPlay()
 	UEnhancedInputLocalPlayerSubsystem* SubSystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 
 	check(SubSystem);
-
 	SubSystem->AddMappingContext(AuraContext, 0);
 
 	bShowMouseCursor = true;

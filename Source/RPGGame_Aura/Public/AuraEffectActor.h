@@ -8,6 +8,7 @@
 
 class USphereComponent;
 class UStaticMeshComponent;
+class UGameplayEffect;
 UCLASS()
 class RPGGAME_AURA_API AAuraEffectActor : public AActor
 {
@@ -21,16 +22,24 @@ protected:
 	
 	virtual void BeginPlay() override;
 
-	UFUNCTION()
-	virtual void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSwep, const FHitResult& SweepResult);
-	UFUNCTION()
-
-	virtual void EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<USphereComponent> Sphere;
+protected:
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Applied Effects")
+	TSubclassOf<UGameplayEffect>InstantGameplayEffectClass;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
+	TSubclassOf<UGameplayEffect>DurationGameplayEffectClass;
 
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UStaticMeshComponent>Mesh;
+	UFUNCTION(BlueprintCallable)
+	void ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect>GameplayEffectClass);
+
+
+	//UFUNCTION()
+	//virtual void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSwep, const FHitResult& SweepResult);
+	//UFUNCTION()
+	//virtual void EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	//UPROPERTY(VisibleAnywhere)
+	//TObjectPtr<USphereComponent> Sphere;
+	//UPROPERTY(VisibleAnywhere)
+	//TObjectPtr<UStaticMeshComponent>Mesh;
 };
