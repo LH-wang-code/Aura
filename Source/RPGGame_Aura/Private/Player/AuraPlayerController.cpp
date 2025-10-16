@@ -39,7 +39,7 @@ void AAuraPlayerController::CursorTrace()
 		if (LastActor != nullptr)
 		{
 			LastActor->UnHighlightActor();
-			
+
 		}
 		if (ThisActor != nullptr)
 		{
@@ -54,10 +54,26 @@ void AAuraPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	check(AuraContext);
-	UEnhancedInputLocalPlayerSubsystem* SubSystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	//check(AuraContext);
+	// 确保这是本地控制器才尝试获取本地子系统
+	if (!IsLocalController())
+	{
+		UE_LOG(LogTemp, Verbose, TEXT("Not a local controller, skipping EnhancedInput setup."));
+		return;
+	}
+	ULocalPlayer* LocalPlayer = GetLocalPlayer();
+	if (!LocalPlayer)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GetLocalPlayer returned nullptr. Delaying EnhancedInput setup."));
+		// 可选择延迟一帧再试或在 Possess 时重试
+		return;
+	}
 
-	check(SubSystem);
+	UEnhancedInputLocalPlayerSubsystem* SubSystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	if (!SubSystem)
+	{
+		return;
+	}
 	SubSystem->AddMappingContext(AuraContext, 0);
 
 	bShowMouseCursor = true;
@@ -95,5 +111,5 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
 
 	}
-	
+
 }
