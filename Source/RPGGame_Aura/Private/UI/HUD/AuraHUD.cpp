@@ -10,10 +10,13 @@
 #include "AttributeSet.h"
 UOverlayAuraWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetControllerParams& WCParams)
 {
+	//确保只创建一次OverlayAuraWidgetController
 	if (OverlayAuraWidgetController == nullptr)
 	{
 		OverlayAuraWidgetController = NewObject<UOverlayAuraWidgetController>(this, OverlayWidgetControllerClass);
+		//这里是我们之前创建的结构体包含UAuraController的相关数据集
 		OverlayAuraWidgetController->SetWidgetControllerParams(WCParams);
+		//绑定GAS属性变化事件，我们只在UAuraController中创建还未在子类重写
 		OverlayAuraWidgetController->BindCallbacksToDependencies();
 
 	}
@@ -21,6 +24,8 @@ UOverlayAuraWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidget
 
 }
 
+
+//这个方法用于创建UI和Controller，调用GetOverlayWidgetController绑定数据，将ui添加到屏幕上
 void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS)
 {
 
