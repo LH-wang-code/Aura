@@ -20,3 +20,15 @@
 
 在蓝图中增加红蓝量的等级效果，使用CurveTable控制，修改了在AuraEffectActor中EffectSpecHandle的参数（设置为等级）
 
+
+
+
+
+2025.10.18
+
+增加GameplayTags相关内容
+
+增加MessageWidgetData，传递道具信息用于制作UI播报
+
+修改角色属性广播形式，使用AddLambda代替回调函数广播
+

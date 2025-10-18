@@ -52,29 +52,45 @@ void AAuraPlayerController::CursorTrace()
 
 void AAuraPlayerController::BeginPlay()
 {
+	//Super::BeginPlay();
+
+	////check(AuraContext);
+	//// 确保这是本地控制器才尝试获取本地子系统
+	//if (!IsLocalController())
+	//{
+	//	UE_LOG(LogTemp, Verbose, TEXT("Not a local controller, skipping EnhancedInput setup."));
+	//	return;
+	//}
+	//ULocalPlayer* LocalPlayer = GetLocalPlayer();
+	//if (!LocalPlayer)
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("GetLocalPlayer returned nullptr. Delaying EnhancedInput setup."));
+	//	// 可选择延迟一帧再试或在 Possess 时重试
+	//	return;
+	//}
+
+	//UEnhancedInputLocalPlayerSubsystem* SubSystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	//if (!SubSystem)
+	//{
+	//	return;
+	//}
+	//SubSystem->AddMappingContext(AuraContext, 0);
+
+	//bShowMouseCursor = true;
+	//DefaultMouseCursor = EMouseCursor::Default;
+
+	//FInputModeGameAndUI InputModeData;
+	//InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	//InputModeData.SetHideCursorDuringCapture(false);
+	//SetInputMode(InputModeData);
 	Super::BeginPlay();
+	check(AuraContext);
 
-	//check(AuraContext);
-	// 确保这是本地控制器才尝试获取本地子系统
-	if (!IsLocalController())
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	if (Subsystem)
 	{
-		UE_LOG(LogTemp, Verbose, TEXT("Not a local controller, skipping EnhancedInput setup."));
-		return;
+		Subsystem->AddMappingContext(AuraContext, 0);
 	}
-	ULocalPlayer* LocalPlayer = GetLocalPlayer();
-	if (!LocalPlayer)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("GetLocalPlayer returned nullptr. Delaying EnhancedInput setup."));
-		// 可选择延迟一帧再试或在 Possess 时重试
-		return;
-	}
-
-	UEnhancedInputLocalPlayerSubsystem* SubSystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	if (!SubSystem)
-	{
-		return;
-	}
-	SubSystem->AddMappingContext(AuraContext, 0);
 
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
@@ -83,7 +99,6 @@ void AAuraPlayerController::BeginPlay()
 	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 	InputModeData.SetHideCursorDuringCapture(false);
 	SetInputMode(InputModeData);
-
 
 }
 

@@ -26,7 +26,10 @@ protected:
 	virtual void OnRep_PlayerState()override;
 	//virtual void Tick(float DeltaTime)override;
 private:
-	void InitAbilitySystemComponent();
+	
+
+	virtual void InitAbilityActorInfo()override;
+
 
 	
 };
