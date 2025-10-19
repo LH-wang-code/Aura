@@ -51,39 +51,39 @@ void AAuraChrarcter::InitAbilityActorInfo()
 	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 	AttributeSet = AuraPlayerState->GetAttributeSet();
 
-	//// 确保 Controller 存在
-	//if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController()))
-	//{
-	//	// 有时此时 HUD 还没创建出来
-	//	if (AAuraHUD* AuraHUD = Cast<AAuraHUD>(AuraPlayerController->GetHUD()))
-	//	{
-	//		AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
-	//	}
-	//	else
-	//	{
-	//		// 延迟执行一次，HUD 创建通常在下一帧
-	//		FTimerHandle DelayHandle;
-	//		GetWorld()->GetTimerManager().SetTimer(DelayHandle, [AuraPlayerController, AuraPlayerState, this]()
-	//			{
-	//				if (AAuraHUD* AuraHUDLater = Cast<AAuraHUD>(AuraPlayerController->GetHUD()))
-	//				{
-	//					AuraHUDLater->InitOverlay(AuraPlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
-	//					UE_LOG(LogTemp, Warning, TEXT("InitOverlay delayed executed successfully"));
-	//				}
-	//				else
-	//				{
-	//					UE_LOG(LogTemp, Warning, TEXT("HUD still not valid after delay"));
-	//				}
-	//			}, 0.2f, false);
-	//	}
-	//}
+	// 确保 Controller 存在
 	if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController()))
 	{
+		// 有时此时 HUD 还没创建出来
 		if (AAuraHUD* AuraHUD = Cast<AAuraHUD>(AuraPlayerController->GetHUD()))
 		{
 			AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
 		}
+		else
+		{
+			// 延迟执行一次，HUD 创建通常在下一帧
+			FTimerHandle DelayHandle;
+			GetWorld()->GetTimerManager().SetTimer(DelayHandle, [AuraPlayerController, AuraPlayerState, this]()
+				{
+					if (AAuraHUD* AuraHUDLater = Cast<AAuraHUD>(AuraPlayerController->GetHUD()))
+					{
+						AuraHUDLater->InitOverlay(AuraPlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
+						UE_LOG(LogTemp, Warning, TEXT("InitOverlay delayed executed successfully"));
+					}
+					else
+					{
+						UE_LOG(LogTemp, Warning, TEXT("HUD still not valid after delay"));
+					}
+				}, 0.2f, false);
+		}
 	}
+	//if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController()))
+	//{
+	//	if (AAuraHUD* AuraHUD = Cast<AAuraHUD>(AuraPlayerController->GetHUD()))
+	//	{
+	//		AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
+	//	}
+	//}
 }
 
 

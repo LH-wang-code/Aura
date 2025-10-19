@@ -84,6 +84,8 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxMana);
 
 
+
+
 	UFUNCTION()
 	void OnRep_Health(FGameplayAttributeData& OldHealth)const ;
 
