@@ -9,9 +9,9 @@
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
-	InitHealth(50.f);
+	InitHealth(100.f);
 	InitMaxHealth(100.f);
-	InitMana(70.f);
+	InitMana(100.f);
 	InitMaxMana(100.f);
 	
 }
@@ -55,7 +55,7 @@ void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 
 	}
 }
-
+//当所有modifer修改的所有值完成以后会调用这个方法，一般用来修正值相对于最大生命值的范围，还有一个方法PreAttributeBaseChange用于修改基础值，在即将修改basevalue时调用
 void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	
@@ -63,6 +63,16 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	FEffectProperties Props;
 	SetEffectProperties(Data,Props);
 
+	//在:PreAttributeChange中限制值实际上还会改变，需要在此再限制或者在PreAttributeBaseChange中限制
+	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+		//GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, FString::Printf(TEXT("Health: %f"), GetHealth()));
+		SetHealth(FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth()));
+	}
+	if (Data.EvaluatedData.Attribute == GetManaAttribute())
+	{
+		SetMana(FMath::Clamp(GetMana(), 0.0f, GetMaxMana()));
+	}
 	
 }
 
