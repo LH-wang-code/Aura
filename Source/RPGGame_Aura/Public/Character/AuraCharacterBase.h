@@ -12,6 +12,7 @@
 
 class UAbilitySystemComponent;
 class UAttributeSet;
+class UGameplayEffect;
 UCLASS(Abstract)
 class RPGGAME_AURA_API AAuraCharacterBase : public ACharacter,public IAbilitySystemInterface
 {
@@ -32,6 +33,10 @@ protected:
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
+	UPROPERTY(BlueprintReadOnly,EditAnywhere,Category="Attributes")
+
+	TSubclassOf<UGameplayEffect>DefaultPrimaryAttributes;
+
 
 protected:
 
@@ -39,4 +44,6 @@ protected:
 
 	virtual void InitAbilityActorInfo();
 
+
+	void InitializePrimaryAttributes()const;
 };
