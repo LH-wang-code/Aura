@@ -21,10 +21,16 @@ public:
 	AAuraChrarcter();
 
 
-protected:
+
 	virtual void PossessedBy(AController* NewController)override;
 	virtual void OnRep_PlayerState()override;
 	//virtual void Tick(float DeltaTime)override;
+
+	//Combat Interface
+
+	virtual int32 GetPlayerLevel()override;
+
+	
 private:
 	
 

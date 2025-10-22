@@ -42,3 +42,12 @@
 
 
 
+2025.10.21
+
+在蓝图中新建BP_TestEffectActor和GE_TestEffectActor测试了modifier中各个选项的作用，在MagnitudeCalculationType==AttrubuteBased情况下，添加各种属性对目标属性的作用及计算方法
+
+添加PrimaryAttributes，包括Strength Intelligence Resilience
+
+添加SecondAttributes，包括Armor ArmorPenetration BlockChance CriticalHitChance  CriticalHitDamage  CriticalHitResistance  HealthRegeneration  ManaRegeneration  MaxHealth  MaxMana
+
+ 这些属性将后续参与Modifier的运算，用于结算各种游戏效果
