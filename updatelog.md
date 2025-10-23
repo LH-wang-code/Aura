@@ -51,3 +51,34 @@
 添加SecondAttributes，包括Armor ArmorPenetration BlockChance CriticalHitChance  CriticalHitDamage  CriticalHitResistance  HealthRegeneration  ManaRegeneration  MaxHealth  MaxMana
 
  这些属性将后续参与Modifier的运算，用于结算各种游戏效果
+
+
+
+2025.10.22
+
+给Second Attributes添加Modifier，计算各个属性，添加关系
+
+添加Character等级，添加level接口，并在Character和Enemy中重写获取等级的方法
+
+添加ModMagCalculate，用于自定义Modifier，添加一些计算方法
+
+
+
+
+
+2025.10.23
+
+继续添加ModMagCalculate,增加MaxHealth和MaxMana的计算
+
+添加DefaultVitalAttributes，用GameplayEffect初始化，初始血量和蓝量
+
+添加各种AttributeMenu的各种组件，添加打开和关闭菜单的逻辑
+
+
+
+
+
+
+
+
+
