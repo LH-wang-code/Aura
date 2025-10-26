@@ -76,6 +76,24 @@
 
 
 
+2025.10.25
+
+添加GameplayTags和AssetManager类，管理Primary和secondary属性
+
+
+
+2025.10.26
+
+添加属性相关的AttributeInfo的DataAsset
+
+添加AttributeMenu相关组件和控制器
+
+添加blueprintFunctionLibrary，添加获取控制器方法
+
+在蓝图中，给attributemenu添加对应的控制器
+
+
+
 
 
 
