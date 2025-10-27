@@ -96,6 +96,20 @@
 
 
 
+2025.10.27
+
+给每个属性行添加gameplaytags
+
+添加属性info的广播到attributemenuwidgetcontroller
+
+使用函数指针对广播的流程进行包装
+
+添加属性值变化广播
+
+
+
+
+
 
 
 

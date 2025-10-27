@@ -8,6 +8,8 @@ FAuraGameplayTags FAuraGameplayTags::GameplayTags;
 
 void FAuraGameplayTags::InitializeNativeGameplayTags()
 {
+	UE_LOG(LogTemp, Warning, TEXT(" FAuraGameplayTags::InitializeNativeGameplayTags called"));
+
 	// Primary Attributes
 	GameplayTags.Attributes_Primary_Strength = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Primary.Strength"), FString("Increases physical power and melee damage"));

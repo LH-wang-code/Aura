@@ -25,7 +25,7 @@ UOverlayAuraWidgetController* UAuraAbilitySystemFunctionLibrary::GetOverlayWidge
 
 }
 
-UAttributeMenyWidgetController* UAuraAbilitySystemFunctionLibrary::GetAttributeMeniWidgetController(const UObject* WorldContextObject)
+UAttributeMenyWidgetController* UAuraAbilitySystemFunctionLibrary::GetAttributeMenuWidgetController(const UObject* WorldContextObject)
 {
 	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
 	{

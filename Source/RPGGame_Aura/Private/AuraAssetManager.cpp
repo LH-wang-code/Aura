@@ -16,5 +16,7 @@ UAuraAssetManager& UAuraAssetManager::Get()
 void UAuraAssetManager::StartInitialLoading()
 {
 	Super::StartInitialLoading();
+	UE_LOG(LogTemp, Warning, TEXT("AuraAssetManager::StartInitialLoading called"));
+
 	FAuraGameplayTags::InitializeNativeGameplayTags();
 }

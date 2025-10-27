@@ -14,6 +14,9 @@
  	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
 
+DECLARE_DELEGATE_RetVal(FGameplayAttribute, FAttributeSignature);
+
+
 
 USTRUCT()
 struct FEffectProperties
@@ -49,6 +52,12 @@ struct FEffectProperties
 	ACharacter* TargetCharacter = nullptr;
 
 };
+
+//typedef TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr AttributeFuncPointer;
+
+template<class T>
+using TStaticFuncPtr= typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
+
 /**
  * 
  */
@@ -65,6 +74,9 @@ public:
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)override;
 
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)override;
+
+	//º¯ÊýÖ¸Õë
+	TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute()>>TagsToAttributes;
 
 
 	/*
