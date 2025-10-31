@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" addBOMForNewFiles="with BOM under Windows, with no BOM otherwise">
+    <file url="file://$PROJECT_DIR$/Source/RPGGame_Aura/Private/Ability/AuraAttributeSet.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Source/RPGGame_Aura/Private/AuraEffectActor.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Source/RPGGame_Aura/Private/Character/AuraChrarcter.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Source/RPGGame_Aura/Private/Player/AuraPlayerController.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Source/RPGGame_Aura/Private/UI/HUD/AuraHUD.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Source/RPGGame_Aura/Public/Ability/AuraAttributeSet.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Source/RPGGame_Aura/Public/AuraEffectActor.h" charset="GBK" />
+  </component>
+</project>

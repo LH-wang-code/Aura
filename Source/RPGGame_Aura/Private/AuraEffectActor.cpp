@@ -33,50 +33,50 @@ void AAuraEffectActor::BeginPlay()
 }
 
 
-//Ó¦ÓÃËùÓĞÓÎÏ·Ğ§¹û
+//åº”ç”¨æ‰€æœ‰æ¸¸æˆæ•ˆæœ
 
 void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect>GameplayEffectClass)
 {
-	//Õâ¸ö·½·¨ÒÀÀµÓÚtargetActorÊµÏÖIAbilitySystemInterface£¬ËùÒÔÖ»»á»ñµÃÍæ¼Ò¿ØÖÆ½ÇÉ«
+	//è¿™ä¸ªæ–¹æ³•ä¾èµ–äºtargetActorå®ç°IAbilitySystemInterfaceï¼Œæ‰€ä»¥åªä¼šè·å¾—ç©å®¶æ§åˆ¶è§’è‰²
 	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 	if (TargetASC == nullptr)return;
 
 	check(GameplayEffectClass);
-	//´ÓÄ¿±êµÄ AbilitySystemComponent ´´½¨Ò»¸öĞÂµÄ FGameplayEffectContextHandle£¬ÓÃÓÚÃèÊöÕâ¸öĞ§¹ûµÄÉÏÏÂÎÄĞÅÏ¢
-	//Í¨¹ı²é¿´Ô´Âë£¬Õâ¸ö·½·¨»á¼ÇÂ¼Ê©·¨ÕßµÄĞÅÏ¢£¬°üÀ¨½ÇÉ«¿ØÖÆÆ÷ºÍ½ÇÉ«±¾Ìå£¬¼´controller£¨AIController£©ºÍCharacter£¨Enemy£©
+	//ä»ç›®æ ‡çš„ AbilitySystemComponent åˆ›å»ºä¸€ä¸ªæ–°çš„ FGameplayEffectContextHandleï¼Œç”¨äºæè¿°è¿™ä¸ªæ•ˆæœçš„ä¸Šä¸‹æ–‡ä¿¡æ¯
+	//é€šè¿‡æŸ¥çœ‹æºç ï¼Œè¿™ä¸ªæ–¹æ³•ä¼šè®°å½•æ–½æ³•è€…çš„ä¿¡æ¯ï¼ŒåŒ…æ‹¬è§’è‰²æ§åˆ¶å™¨å’Œè§’è‰²æœ¬ä½“ï¼Œå³controllerï¼ˆAIControllerï¼‰å’ŒCharacterï¼ˆEnemyï¼‰
 	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
-	EffectContextHandle.AddSourceObject(this);//ÊÖ¶¯Ö¸¶¨Ğ§¹ûÀ´Ô´£¬Õâ¸öÀ´Ô´Ö¸µÄÊÇµÀ¾ß±¾Éí£¬²»ÊÇÊ©·¨Õß
+	EffectContextHandle.AddSourceObject(this);//æ‰‹åŠ¨æŒ‡å®šæ•ˆæœæ¥æºï¼Œè¿™ä¸ªæ¥æºæŒ‡çš„æ˜¯é“å…·æœ¬èº«ï¼Œä¸æ˜¯æ–½æ³•è€…
 
-	//ÕâÒ»²½°ü×°ĞÅÏ¢£¬°Ñµ±Ç°¶ÔÏó£¨Í¨³£ÊÇ¼¼ÄÜ¡¢ÎäÆ÷¡¢½ÇÉ«µÈ£©×÷ÎªÕâ¸öĞ§¹ûµÄÀ´Ô´£¬Ç¶Èëµ½ÉÏÏÂÎÄÖĞ£¬¹©ºóĞøÂß¼­Ê¹ÓÃ
-	//µÚÒ»¸ö²ÎÊıÊÇÓÎÏ·Ğ§¹û£¬µÚ¶ş¸öÊÇÓ°ÏìµÈ¼¶£¬µÚÈı¸öÊÇÉÏÏÂÎÄĞÅÏ¢
+	//è¿™ä¸€æ­¥åŒ…è£…ä¿¡æ¯ï¼ŒæŠŠå½“å‰å¯¹è±¡ï¼ˆé€šå¸¸æ˜¯æŠ€èƒ½ã€æ­¦å™¨ã€è§’è‰²ç­‰ï¼‰ä½œä¸ºè¿™ä¸ªæ•ˆæœçš„æ¥æºï¼ŒåµŒå…¥åˆ°ä¸Šä¸‹æ–‡ä¸­ï¼Œä¾›åç»­é€»è¾‘ä½¿ç”¨
+	//ç¬¬ä¸€ä¸ªå‚æ•°æ˜¯æ¸¸æˆæ•ˆæœï¼Œç¬¬äºŒä¸ªæ˜¯å½±å“ç­‰çº§ï¼Œç¬¬ä¸‰ä¸ªæ˜¯ä¸Šä¸‹æ–‡ä¿¡æ¯
 	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, ActorLevel, EffectContextHandle);
 	/*
 	EffectSpecHandle.Data.Get()
-EffectSpecHandle ÊÇÄãÖ®Ç°Í¨¹ı MakeOutgoingSpec() ¹¹ÔìµÄĞ§¹û¹æ¸ñ°ü×°Æ÷¡£
+EffectSpecHandle æ˜¯ä½ ä¹‹å‰é€šè¿‡ MakeOutgoingSpec() æ„é€ çš„æ•ˆæœè§„æ ¼åŒ…è£…å™¨ã€‚
 
-.Data.Get() È¡³öÄÚ²¿µÄ FGameplayEffectSpec Ö¸Õë¡£
+.Data.Get() å–å‡ºå†…éƒ¨çš„ FGameplayEffectSpec æŒ‡é’ˆã€‚
 
-Äã´«ÈëµÄÊÇÒ»¸öÖ¸ÕëÒıÓÃ£¨*£©£¬±íÊ¾ÄãÒªÓ¦ÓÃÕâ¸ö¾ßÌåµÄĞ§¹ûÊµÀı¡£
+ä½ ä¼ å…¥çš„æ˜¯ä¸€ä¸ªæŒ‡é’ˆå¼•ç”¨ï¼ˆ*ï¼‰ï¼Œè¡¨ç¤ºä½ è¦åº”ç”¨è¿™ä¸ªå…·ä½“çš„æ•ˆæœå®ä¾‹ã€‚
 
-µ±Äãµ÷ÓÃ ApplyGameplayEffectSpecToSelf(...)£¬GAS »á£º
+å½“ä½ è°ƒç”¨ ApplyGameplayEffectSpecToSelf(...)ï¼ŒGAS ä¼šï¼š
 
-¼ì²é GameplayEffectSpec µÄºÏ·¨ĞÔ£¨±ÈÈçÊÇ·ñÓĞ³ÖĞøÊ±¼ä¡¢ÊÇ·ñÂú×ãÌõ¼ş£©
+æ£€æŸ¥ GameplayEffectSpec çš„åˆæ³•æ€§ï¼ˆæ¯”å¦‚æ˜¯å¦æœ‰æŒç»­æ—¶é—´ã€æ˜¯å¦æ»¡è¶³æ¡ä»¶ï¼‰
 
-¸ù¾İ GameplayEffect µÄ¶¨ÒåĞŞ¸ÄÄ¿±êµÄÊôĞÔ£¨±ÈÈçÉúÃüÖµ¡¢·¨Á¦Öµ£©
+æ ¹æ® GameplayEffect çš„å®šä¹‰ä¿®æ”¹ç›®æ ‡çš„å±æ€§ï¼ˆæ¯”å¦‚ç”Ÿå‘½å€¼ã€æ³•åŠ›å€¼ï¼‰
 
-Ìí¼Ó GameplayTags£¨±ÈÈç Status.Burning£©
+æ·»åŠ  GameplayTagsï¼ˆæ¯”å¦‚ Status.Burningï¼‰
 
-²¥·Å GameplayCue£¨±ÈÈç»ğÑæÌØĞ§¡¢ÒôĞ§£©
+æ’­æ”¾ GameplayCueï¼ˆæ¯”å¦‚ç«ç„°ç‰¹æ•ˆã€éŸ³æ•ˆï¼‰
 
-ÔÚÍøÂçÉÏÍ¬²½Õâ¸öĞ§¹û£¨Èç¹ûÊÇ¶àÈËÓÎÏ·£©
+åœ¨ç½‘ç»œä¸ŠåŒæ­¥è¿™ä¸ªæ•ˆæœï¼ˆå¦‚æœæ˜¯å¤šäººæ¸¸æˆï¼‰
 
-·µ»ØÒ»¸ö FActiveGameplayEffectHandle£¬ÓÃÓÚºóĞø×·×ÙÕâ¸öĞ§¹û
+è¿”å›ä¸€ä¸ª FActiveGameplayEffectHandleï¼Œç”¨äºåç»­è¿½è¸ªè¿™ä¸ªæ•ˆæœ
 
 */
 	FActiveGameplayEffectHandle ActiveEffectHandle = TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 
 
-	//¼ì²éËûÊÇ²»ÊÇÒ»¸öÎŞÏŞµÄÓÎÏ·Ğ§¹û£¬ÎÒÃÇ»áÕë¶ÔÕâ¸öĞ§¹û½øĞĞÅĞ¶ÏÊÇ·ñ¼ÌĞøÊ¹ÓÃ
+	//æ£€æŸ¥ä»–æ˜¯ä¸æ˜¯ä¸€ä¸ªæ— é™çš„æ¸¸æˆæ•ˆæœï¼Œæˆ‘ä»¬ä¼šé’ˆå¯¹è¿™ä¸ªæ•ˆæœè¿›è¡Œåˆ¤æ–­æ˜¯å¦ç»§ç»­ä½¿ç”¨
 	const bool bIsInfinite = EffectSpecHandle.Data.Get()->Def.Get()->DurationPolicy == EGameplayEffectDurationType::Infinite;
 
 	if (bIsInfinite && InfiniteEffectRemovePolicy == EEffectRemovePolicy::RemoveEndOverlap)

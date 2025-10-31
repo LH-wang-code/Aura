@@ -19,9 +19,9 @@ void UAttributeMenyWidgetController::BroadcastInitialValues()
 
 	for (auto& Pair : AS->TagsToAttributes)
 	{
-		FAuraAttributeInfo Info = AttributeInfo->FindAttributeUInfoForTag(Pair.Key);
-		Info.AtttributeValue = Pair.Value().GetNumericValue(AS);
-		AttributeInfoDelegate.Broadcast(Info);
+
+		BroadcastAttributeInfo(Pair.Key,Pair.Value());
+		
 	}
 	for (const auto& Pair : AS->TagsToAttributes)
 	{
@@ -38,21 +38,26 @@ void UAttributeMenyWidgetController::BindCallbacksToDependencies()
 	UAuraAttributeSet* AS = CastChecked<UAuraAttributeSet>(AttributeSet);
 	for (auto& Pair : AS->TagsToAttributes)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Binding: %s ¡ú %s"), *Pair.Key.ToString(), *Pair.Value().GetName());
+		//UE_LOG(LogTemp, Warning, TEXT("Binding: %s ï¿½ï¿½ %s"), *Pair.Key.ToString(), *Pair.Value().GetName());
 
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
 			[this,Pair,AS](const FOnAttributeChangeData& Data)
 			{
-				//UE_LOG(LogTemp, Warning, TEXT("Broadcasting: %s ¡ú %f"),
+				//UE_LOG(LogTemp, Warning, TEXT("Broadcasting: %s ï¿½ï¿½ %f"),
 				//	*Pair.Key.ToString(), Pair.Value().GetNumericValue(AS));
 
-				FAuraAttributeInfo Info = AttributeInfo->FindAttributeUInfoForTag(Pair.Key);
-				Info.AtttributeValue = Pair.Value().GetNumericValue(AS);
-				AttributeInfoDelegate.Broadcast(Info);
+				BroadcastAttributeInfo(Pair.Key, Pair.Value());
 			}
 
 		);
 	}
 
 
+}
+
+void UAttributeMenyWidgetController::BroadcastAttributeInfo(const FGameplayTag& AttributeTag,const FGameplayAttribute& Attribute)const
+{
+	FAuraAttributeInfo Info = AttributeInfo->FindAttributeUInfoForTag(AttributeTag);
+	Info.AtttributeValue = Attribute.GetNumericValue(AttributeSet);
+	AttributeInfoDelegate.Broadcast(Info);
 }

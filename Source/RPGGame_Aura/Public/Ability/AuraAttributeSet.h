@@ -75,7 +75,7 @@ public:
 
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)override;
 
-	//º¯ÊýÖ¸Õë
+	//å‡½æ•°æŒ‡é’ˆ
 	TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute()>>TagsToAttributes;
 
 
