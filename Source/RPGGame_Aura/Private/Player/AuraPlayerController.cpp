@@ -3,7 +3,7 @@
 
 #include "Player/AuraPlayerController.h"
 #include "EnhancedInputSubsystems.h"
-#include "EnhancedInput/Public/EnhancedInputComponent.h"
+#include "Input/AuraInputComponent.h"
 #include "InterAction/EnemyInterface.h"
 #include "Logging/LogMacros.h"
 AAuraPlayerController::AAuraPlayerController()
@@ -27,7 +27,7 @@ void AAuraPlayerController::CursorTrace()
 	LastActor = ThisActor;
 	ThisActor = Cast<IEnemyInterface>(CursorHit.GetActor());
 	/*
-		LastActor is null and ThisActor is null   Ê²Ã´Ò²²»×ö
+		LastActor is null and ThisActor is null   Ê²Ã´Ò²ï¿½ï¿½ï¿½ï¿½
 		LastActor is null and ThisActor is valid  Highlight ThisActor
 		LastActor is valid and ThisActor is null  UnHighlight LastActor
 		LastActor is valid and ThisActor is valid Highlight ThisActor
@@ -55,7 +55,7 @@ void AAuraPlayerController::BeginPlay()
 	//Super::BeginPlay();
 
 	////check(AuraContext);
-	//// È·±£ÕâÊÇ±¾µØ¿ØÖÆÆ÷²Å³¢ÊÔ»ñÈ¡±¾µØ×ÓÏµÍ³
+	//// È·ï¿½ï¿½ï¿½ï¿½ï¿½Ç±ï¿½ï¿½Ø¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å³ï¿½ï¿½Ô»ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏµÍ³
 	//if (!IsLocalController())
 	//{
 	//	UE_LOG(LogTemp, Verbose, TEXT("Not a local controller, skipping EnhancedInput setup."));
@@ -65,7 +65,7 @@ void AAuraPlayerController::BeginPlay()
 	//if (!LocalPlayer)
 	//{
 	//	UE_LOG(LogTemp, Warning, TEXT("GetLocalPlayer returned nullptr. Delaying EnhancedInput setup."));
-	//	// ¿ÉÑ¡ÔñÑÓ³ÙÒ»Ö¡ÔÙÊÔ»òÔÚ Possess Ê±ÖØÊÔ
+	//	// ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ó³ï¿½Ò»Ö¡ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½ Possess Ê±ï¿½ï¿½ï¿½ï¿½
 	//	return;
 	//}
 
@@ -105,8 +105,29 @@ void AAuraPlayerController::BeginPlay()
 void AAuraPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
-	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
-	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+	//UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
+	UAuraInputComponent* AuraInputComponent=CastChecked<UAuraInputComponent>(InputComponent);
+	
+
+	AuraInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+	AuraInputComponent->BindAbilityActions(InputConfig,this,&ThisClass::AbilityInputTagPressed,&ThisClass::AbilityInputTagReleased,&ThisClass::AbilityInputTagHeld);
+}
+
+void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(1,3.f,FColor::Red,*InputTag.ToString());
+}
+
+void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(2,3.f,FColor::Blue,*InputTag.ToString());
+	
+}
+
+void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(3,3.f,FColor::Green,*InputTag.ToString());
+	
 }
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
