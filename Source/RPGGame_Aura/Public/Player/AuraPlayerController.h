@@ -13,6 +13,8 @@ class UInputAction;
 struct FInputActionValue;
 class IEnemyInterface;
 class UAuraInputConfig;
+class UAuraAbilitySystemComponent;
+class USplineComponent;
 /**
  * 
  */
@@ -39,6 +41,8 @@ private:
 	
 	IEnemyInterface* LastActor;
 	IEnemyInterface* ThisActor;
+	FHitResult CursorHit;
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UAuraInputConfig>InputConfig;
 
@@ -50,4 +54,24 @@ private:
 
 	void CursorTrace();
 
+	UPROPERTY()
+	TObjectPtr<UAuraAbilitySystemComponent>AuraAbilitySystemComponent;
+
+	UAuraAbilitySystemComponent* GetASC();
+
+	FVector CachedDestination=FVector::ZeroVector;
+	
+	float FollowTime=0.f;
+	float ShortPressThreshold=0.5f;
+	bool bAutoRunning =false;
+	bool bTargeting=false;
+	
+	UPROPERTY(EditDefaultsOnly)
+	float AutoRunAcceptanceRadius=50.f;
+
+
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<USplineComponent>Spline;
+
+	void AutoRun();
 };

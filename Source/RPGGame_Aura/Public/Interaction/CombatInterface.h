@@ -24,5 +24,6 @@ class RPGGAME_AURA_API ICombatInterface
 public:
 
 	virtual int32 GetPlayerLevel();
+	virtual FVector GetCombatSocketLocation();
 
 };
