@@ -138,3 +138,17 @@
 
 
 
+2025.11.3
+
+添加AbilityTask：
+
+​	添加鼠标点击事件
+
+​	添加projectile Montage
+
+添加点击目标数据，projectile可以朝着目标方向发射
+
+添加shift输入，projectile可朝着任意方向发射
+
+TODO：角色朝向改变
+

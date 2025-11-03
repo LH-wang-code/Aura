@@ -38,7 +38,13 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction>MoveAction;
-	
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TObjectPtr<UInputAction>ShiftAction;
+
+
+	void ShiftPressed(){bShiftKeyDawn=true;}
+	void ShiftReleased(){bShiftKeyDawn=false;}
+	bool bShiftKeyDawn;
 	IEnemyInterface* LastActor;
 	IEnemyInterface* ThisActor;
 	FHitResult CursorHit;
