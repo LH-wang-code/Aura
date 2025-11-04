@@ -26,7 +26,7 @@ public:
 	FMouseTargetDataSignature ValidData;
 
 private:
-		virtual void Activate() override;
+	virtual void Activate() override;
 	void SendMouseCursorData();
 
 
