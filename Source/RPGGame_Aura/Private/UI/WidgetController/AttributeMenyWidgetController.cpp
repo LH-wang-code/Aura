@@ -38,17 +38,16 @@ void UAttributeMenyWidgetController::BindCallbacksToDependencies()
 	UAuraAttributeSet* AS = CastChecked<UAuraAttributeSet>(AttributeSet);
 	for (auto& Pair : AS->TagsToAttributes)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Binding: %s �� %s"), *Pair.Key.ToString(), *Pair.Value().GetName());
+		//UE_LOG(LogTemp, Warning, TEXT("Binding: %s �� %s"), *Pair.Key.ToSt            ring(), *Pair.Value().GetName());
 
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
-			[this,Pair,AS](const FOnAttributeChangeData& Data)
+			[this,Pair](const FOnAttributeChangeData& Data)
 			{
 				//UE_LOG(LogTemp, Warning, TEXT("Broadcasting: %s �� %f"),
 				//	*Pair.Key.ToString(), Pair.Value().GetNumericValue(AS));
 
 				BroadcastAttributeInfo(Pair.Key, Pair.Value());
 			}
-
 		);
 	}
 

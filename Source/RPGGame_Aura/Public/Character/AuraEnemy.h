@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Character/AuraCharacterBase.h"
 #include "Interaction/EnemyInterface.h"
+#include "Components/WidgetComponent.h"
+#include "UI/WidgetController/OverlayAuraWidgetController.h"
 #include "AuraEnemy.generated.h"
 
 /**
@@ -26,6 +28,11 @@ public:
 
 	virtual int32 GetPlayerLevel() override;
 
+	UPROPERTY(VisibleAnywhere,BlueprintAssignable)
+	FOnAttributeChangedSignature OnHealthChanged;
+
+	UPROPERTY(VisibleAnywhere, BlueprintAssignable)
+	FOnAttributeChangedSignature OnMaxHealthChanged;
 
 
 protected:
@@ -35,5 +42,7 @@ protected:
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Character Class Defaults")
 	int32 Level = 1;
 
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	TObjectPtr<UWidgetComponent> EnemyHealthWidget;
 
 };

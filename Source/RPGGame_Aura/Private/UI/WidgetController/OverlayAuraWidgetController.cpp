@@ -51,7 +51,6 @@ void UOverlayAuraWidgetController::BindCallbacksToDependencies()
 			for (FGameplayTag Tag : AssetTags)
 			{                       
 
-
 				FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
 				if (Tag.MatchesTag(MessageTag))
 				{

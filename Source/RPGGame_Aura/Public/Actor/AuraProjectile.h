@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameplayEffectTypes.h"
 #include "AuraProjectile.generated.h"
 
 class USphereComponent;
@@ -18,6 +19,11 @@ public:
 
 	AAuraProjectile();
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovement;
+
+
+	UPROPERTY(BlueprintReadOnly,meta=(ExposeOnSpawn=true))
+
+	FGameplayEffectSpecHandle DamageEffectSpecHandle;
 protected:
 	virtual void BeginPlay() override;
 
@@ -44,7 +50,7 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<USoundBase>LoopSound;
-	UPROPERTY()
 
+	UPROPERTY()
 	TObjectPtr<UAudioComponent> AudioComponent;
 };
