@@ -4,10 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "Ability/Data/CharacterClassInfo.h" 
 #include "AuraAbilitySystemFunctionLibrary.generated.h"
-
+ 
 
 class UOverlayAuraWidgetController;
+
 /**
  * 
  */
@@ -22,5 +24,8 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary| WidgetController")
 	static UAttributeMenyWidgetController* GetAttributeMenuWidgetController(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary| CharacterClassInfo")
+	static void InitializeDefaultCharacterClassInfo(const UObject* WorldContextObject,ECharacterClass CharacterClass, float level,UAbilitySystemComponent* ASC);
 
 };

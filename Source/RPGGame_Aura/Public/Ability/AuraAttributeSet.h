@@ -154,15 +154,18 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Health);
 
 
-
-
-
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Mana, Category = "AttributeSets")
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Mana);
 
 
+	/*
+		Meta Attributes
+	*/
 
+	UPROPERTY(BlueprintReadOnly, Category = "MetaAttributeSets")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage);
 
 
 

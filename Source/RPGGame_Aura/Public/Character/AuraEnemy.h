@@ -7,11 +7,13 @@
 #include "Interaction/EnemyInterface.h"
 #include "Components/WidgetComponent.h"
 #include "UI/WidgetController/OverlayAuraWidgetController.h"
+#include "Ability/Data/CharacterClassInfo.h" 
 #include "AuraEnemy.generated.h"
 
 /**
  * 
  */
+
 UCLASS()
 class RPGGAME_AURA_API AAuraEnemy : public AAuraCharacterBase,public IEnemyInterface
 {
@@ -38,9 +40,13 @@ public:
 protected:
 	virtual void BeginPlay()override;
 	virtual void InitAbilityActorInfo()override;
-
+	virtual void InitializeDefaultAttributes()const override;
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Character Class Defaults")
 	int32 Level = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
+	ECharacterClass CharacterClass=ECharacterClass::Marrier;
+
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> EnemyHealthWidget;
