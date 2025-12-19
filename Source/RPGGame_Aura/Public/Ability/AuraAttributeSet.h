@@ -79,6 +79,7 @@ public:
 	TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute()>>TagsToAttributes;
 
 
+
 	/*
 	*Primary Attributes
 	*/

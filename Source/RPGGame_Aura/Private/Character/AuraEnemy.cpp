@@ -7,6 +7,8 @@
 #include "Ability/AuraAttributeSet.h"
 #include "Components/WidgetComponent.h"
 #include "Ability/AuraAbilitySystemFunctionLibrary.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "AuraGameplayTags.h"
 
 
 
@@ -28,6 +30,8 @@ AAuraEnemy::AAuraEnemy()
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeedBase;
+	UAuraAbilitySystemFunctionLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
 
 	check(AbilitySystemComponent);
 	InitAbilityActorInfo();
@@ -49,6 +53,10 @@ void AAuraEnemy::BeginPlay()
 			[this](FOnAttributeChangeData Data) {
 				OnMaxHealthChanged.Broadcast(Data.NewValue);
 			}
+		);
+		AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get().Effects_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(
+			this,
+			&AAuraEnemy::HitReactTagChanged
 		);
 	
 
@@ -74,7 +82,7 @@ void AAuraEnemy::HighlightActor()
 	GetMesh()->SetRenderCustomDepth(true);
 
 	GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_VALUE);
-
+	 
 	Weapon->SetRenderCustomDepth(true);
 	Weapon->SetCustomDepthStencilValue(CUSTOM_DEPTH_VALUE);
 }
@@ -87,5 +95,17 @@ void AAuraEnemy::UnHighlightActor()
 int32 AAuraEnemy::GetPlayerLevel()
 {
 	return Level;
+}
+
+void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallbackTag,int32 NewCount)
+{
+	bHitReact = NewCount > 0.f;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReact ? 0.f : WalkSpeedBase;
+}
+
+void AAuraEnemy::Die()
+{
+	SetLifeSpan(LifeSpan);
+	Super::Die();
 }
 

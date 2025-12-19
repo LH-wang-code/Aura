@@ -59,6 +59,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	
 
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Damage"), FString("Projectile Spell Damage"));  // 改为 4
+		FName("Damage"), FString("Projectile Spell Damage"));  
+
+
+	GameplayTags.Effects_HitReact= UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Effects.HitReact"), FString("Effects to Make goblin react"));  
 
 }

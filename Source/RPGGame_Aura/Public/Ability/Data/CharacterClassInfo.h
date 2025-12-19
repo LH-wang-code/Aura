@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "Abilities/GameplayAbility.h"
 #include "CharacterClassInfo.generated.h"
 
 class UGameplayEffect;
@@ -48,6 +49,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Common Default Class")
 	TSubclassOf<UGameplayEffect> VitalAttributes;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Common Default Class")
+	TArray<TSubclassOf<UGameplayAbility>>CommonAbilities;
 
 	FCharacterClassDefaultInfo GetInfoWithECharacterClass(ECharacterClass CharacterClass);
 	

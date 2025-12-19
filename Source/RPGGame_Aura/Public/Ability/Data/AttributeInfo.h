@@ -45,4 +45,6 @@ public:
 
 	TArray<FAuraAttributeInfo> AttributeInfomation;
 	
+
+
 };
