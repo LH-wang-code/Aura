@@ -16,6 +16,8 @@ class UAttributeSet;
 class UGameplayEffect;
 class UGameplayAbility;
 class UAnimMontage;
+class UMaterialInstance;
+class UMaterialInstanceDynamic;
 UCLASS(Abstract)
 class RPGGAME_AURA_API AAuraCharacterBase : public ACharacter,public IAbilitySystemInterface,public ICombatInterface
 {
@@ -34,6 +36,15 @@ public:
 	UFUNCTION(NetMulticast,Reliable)
 	virtual void MulticastHandleDeath();
 
+
+
+	void Dissolve();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartupTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void WeaponStartupTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
 protected:
 	UPROPERTY(EditAnywhere,Category="Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
@@ -58,8 +69,17 @@ protected:
 	TSubclassOf<UGameplayEffect>DefaultPrimaryAttributes;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
-
 	TSubclassOf<UGameplayEffect>DefaultSecondaryAttributes;
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly)
+	TObjectPtr<UMaterialInstance>DissolveMaterial;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UMaterialInstance>WeaponDissolveMaterial;
+
+
+
+
 protected:
 
 	virtual void BeginPlay() override;
