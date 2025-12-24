@@ -15,6 +15,7 @@ public:
 	bool IsCriticalHit() const { return bIsCriticalHit; }
 	bool IsBlockedHit() const { return bIsBlockedHit; }
 	
+	
 	void SetIsCriticalHit(bool bInIsCriticalHit) { bIsCriticalHit = bInIsCriticalHit; }
 	void SetIsBlockedHit(bool bInIsBlockedHit) { bIsBlockedHit = bInIsBlockedHit; }
 
@@ -36,3 +37,12 @@ private:
 
 
 };
+
+template<>
+struct TStructOpsTypeTraits<FAuraGameplayEffectContext> :public TStructOpsTypeTraitsBase2<FAuraGameplayEffectContext>
+{
+	enum {
+		WithNetSerializer = true,
+		WithCopy = true
+	};
+}; 

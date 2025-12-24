@@ -32,7 +32,7 @@ public:
 
 
 	UFUNCTION(Client,Reliable)
-	void ShowDamageText(float DamageText,ACharacter* TargetCharacter);
+	void ShowDamageText(float DamageText,ACharacter* TargetCharacter,bool bBlockedHit,bool bCriticalHit);
 protected:
 	virtual void BeginPlay()override;
 	virtual void SetupInputComponent()override;
