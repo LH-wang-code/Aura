@@ -8,8 +8,6 @@
  * 
  */
 
-
-
 struct FAuraGameplayTags
 {
 public:

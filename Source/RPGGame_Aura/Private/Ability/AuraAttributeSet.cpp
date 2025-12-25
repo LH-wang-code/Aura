@@ -33,9 +33,9 @@ UAuraAttributeSet::UAuraAttributeSet()
 	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_MaxMana, GetMaxManaAttribute);
 	
 	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Fire, GetFireResistanceAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Fire, GetLightningResistanceAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Fire, GetArcaneResistanceAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Fire, GetPhysicalResistanceAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Lightning, GetLightningResistanceAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Arcane, GetArcaneResistanceAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Physical, GetPhysicalResistanceAttribute);
 
 
 
@@ -274,26 +274,26 @@ void UAuraAttributeSet::OnRep_ManaRegeneration(FGameplayAttributeData& OldManaRe
 
 }
 
-void UAuraAttributeSet::OnRep_Damage_Fire(FGameplayAttributeData& OldDamage_Fire) const
-{
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Damage_Fire, OldDamage_Fire);
-}
-
-
-void UAuraAttributeSet::OnRep_Damage_Lightning(FGameplayAttributeData& OldDamage_Lightning) const
-{
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Damage_Lightning, OldDamage_Lightning);
-}
-
-void UAuraAttributeSet::OnRep_Damage_Arcane(FGameplayAttributeData& OldDamage_Arcane) const
-{
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Damage_Arcane, OldDamage_Arcane);
-}
-
-void UAuraAttributeSet::OnRep_Damage_Physical(FGameplayAttributeData& OldDamage_Physical) const
-{
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Damage_Physical, OldDamage_Physical);
-}
+//void UAuraAttributeSet::OnRep_Damage_Fire(FGameplayAttributeData& OldDamage_Fire) const
+//{
+//	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Damage_Fire, OldDamage_Fire);
+//}
+//
+//
+//void UAuraAttributeSet::OnRep_Damage_Lightning(FGameplayAttributeData& OldDamage_Lightning) const
+//{
+//	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Damage_Lightning, OldDamage_Lightning);
+//}
+//
+//void UAuraAttributeSet::OnRep_Damage_Arcane(FGameplayAttributeData& OldDamage_Arcane) const
+//{
+//	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Damage_Arcane, OldDamage_Arcane);
+//}
+//
+//void UAuraAttributeSet::OnRep_Damage_Physical(FGameplayAttributeData& OldDamage_Physical) const
+//{
+//	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Damage_Physical, OldDamage_Physical);
+//}
 
 void UAuraAttributeSet::OnRep_FireResistance(FGameplayAttributeData& OldFireResistance) const
 {

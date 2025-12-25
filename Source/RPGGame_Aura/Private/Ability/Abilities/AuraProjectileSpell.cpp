@@ -72,7 +72,6 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 			AuraContext->IsBlockedHit());
 
 
-
 		//meta Data
 		FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
 

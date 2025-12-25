@@ -147,39 +147,42 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxMana);
 
 
-	/*
-		*Secondary Attributes_Damage
-	*/
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Damage_Fire, Category = "AttributeSets")
-	FGameplayAttributeData Damage_Fire;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Damage_Fire);
+	///*
+	//	*Secondary Attributes_Damage
+	//*/
+	//UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Damage_Fire, Category = "AttributeSets")
+	//FGameplayAttributeData Damage_Fire;
+	//ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Damage_Fire);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Damage_Lightning, Category = "AttributeSets")
-	FGameplayAttributeData Damage_Lightning;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Damage_Lightning);
+	//UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Damage_Lightning, Category = "AttributeSets")
+	//FGameplayAttributeData Damage_Lightning;
+	//ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Damage_Lightning);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Damage_Arcane, Category = "AttributeSets")
-	FGameplayAttributeData Damage_Arcane;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Damage_Arcane);
+	//UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Damage_Arcane, Category = "AttributeSets")
+	//FGameplayAttributeData Damage_Arcane;
+	//ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Damage_Arcane);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Damage_Physical, Category = "AttributeSets")
-	FGameplayAttributeData Damage_Physical;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Damage_Physical);
+	//UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Damage_Physical, Category = "AttributeSets")
+	//FGameplayAttributeData Damage_Physical;
+	//ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Damage_Physical);
 
 
 	/*
 		*Secondary Attributes_ResistanceToDamage
 	*/
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_FireResistance, Category = "AttributeSets")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_FireResistance, Category = "Resistance AttributeSets")
 	FGameplayAttributeData FireResistance;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, FireResistance);
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_LightningResistance, Category = "AttributeSets")
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_LightningResistance, Category = "Resistance AttributeSets")
 	FGameplayAttributeData LightningResistance;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, LightningResistance);
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ArcaneResistance, Category = "AttributeSets")
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ArcaneResistance, Category = "Resistance AttributeSets")
 	FGameplayAttributeData ArcaneResistance;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArcaneResistance);
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalResistance, Category = "AttributeSets")
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalResistance, Category = "Resistance AttributeSets")
 	FGameplayAttributeData PhysicalResistance;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, PhysicalResistance);
 
@@ -257,17 +260,17 @@ public:
 	UFUNCTION()
 	void OnRep_ManaRegeneration(FGameplayAttributeData& OldManaRegeneration)const;
 
-	UFUNCTION()
-	void OnRep_Damage_Fire(FGameplayAttributeData& OldDamage_Fire)const;
+	//UFUNCTION()
+	//void OnRep_Damage_Fire(FGameplayAttributeData& OldDamage_Fire)const;
 
-	UFUNCTION()
-	void OnRep_Damage_Lightning(FGameplayAttributeData& OldDamage_Lightning)const;
+	//UFUNCTION()
+	//void OnRep_Damage_Lightning(FGameplayAttributeData& OldDamage_Lightning)const;
 
-	UFUNCTION()
-	void OnRep_Damage_Arcane(FGameplayAttributeData& OldDamage_Arcane)const;
+	//UFUNCTION()
+	//void OnRep_Damage_Arcane(FGameplayAttributeData& OldDamage_Arcane)const;
 
-	UFUNCTION()
-	void OnRep_Damage_Physical(FGameplayAttributeData& OldDamage_Physical)const;
+	//UFUNCTION()
+	//void OnRep_Damage_Physical(FGameplayAttributeData& OldDamage_Physical)const;
 
 	UFUNCTION()
 	void OnRep_FireResistance(FGameplayAttributeData& OldFireResistance)const;

@@ -10,6 +10,9 @@
 #include "Ability/Data/CharacterClassInfo.h" 
 #include "AuraEnemy.generated.h"
 
+
+class UBehaviorTree;
+class AAuraAIController;
 /**
  * 
  */
@@ -20,6 +23,9 @@ class RPGGAME_AURA_API AAuraEnemy : public AAuraCharacterBase,public IEnemyInter
 	GENERATED_BODY()
 	
 public:
+
+
+	virtual void PossessedBy(AController* NewController)override;
 
 	//IEnemyInterface
 	AAuraEnemy();
@@ -61,4 +67,11 @@ protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> EnemyHealthWidget;
 
+
+	//AI
+	UPROPERTY(EditAnywhere,Category="AI")
+	TObjectPtr<UBehaviorTree>BehaviorTree;
+
+	UPROPERTY(EditAnywhere, Category = "AI")
+	TObjectPtr<AAuraAIController>AuraAIController;
 };

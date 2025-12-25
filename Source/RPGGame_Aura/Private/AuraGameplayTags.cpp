@@ -57,21 +57,17 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.InputTag_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("InputTag.4"), FString("Input Tag For Key 4"));  // 改为 4
 	
-	/*
-	Damage Type
-	*/
+
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Damage"), FString("Projectile Spell Damage"));  
+		FName("Damage"), FString("Primary Damage"));
 	GameplayTags.Damage_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Damage.Fire"), FString("Fire Hit Ability"));
+		FName("Damage.Fire"), FString("Fire Damage"));
 	GameplayTags.Damage_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Damage.Lightning"), FString("Lightning Hit Ability"));
+		FName("Damage.Lightning"), FString("Fire Damage"));
 	GameplayTags.Damage_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Damage.Arcane"), FString("Arcane Hit Ability"));
+		FName("Damage.Arcane"), FString("Arcane Damage"));
 	GameplayTags.Damage_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Damage.Physical"), FString("Physical Hit Ability"));
-
-
+		FName("Damage.Physical"), FString("Physical Damage"));
 	/*
 	Resistance To Damage
 	*/
@@ -88,10 +84,6 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.DamageTypesToResistance.Add(GameplayTags.Damage_Lightning, GameplayTags.Attributes_Resistance_Lightning);
 	GameplayTags.DamageTypesToResistance.Add(GameplayTags.Damage_Arcane, GameplayTags.Attributes_Resistance_Arcane);
 	GameplayTags.DamageTypesToResistance.Add(GameplayTags.Damage_Physical, GameplayTags.Attributes_Resistance_Physical);
-
-
-
-
 
 
 	GameplayTags.Effects_HitReact= UGameplayTagsManager::Get().AddNativeGameplayTag(
