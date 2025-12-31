@@ -6,6 +6,6 @@
 #include "BehaviorTree/BehaviorTreeComponent.h"
 AAuraAIController::AAuraAIController()
 {
-	BlackboardComponent = CreateDefaultSubobject<UBlackboardComponent>("BlackboardComponent");
+	Blackboard = CreateDefaultSubobject<UBlackboardComponent>("BlackboardComponent");
 	BehaviorTreeComponent = CreateDefaultSubobject<UBehaviorTreeComponent>("BehaviorTreeComponent");
 }

@@ -23,9 +23,9 @@ public:
 protected:
 
 	UPROPERTY()
-	TObjectPtr<UBlackboardComponent>BlackboardComponent;
-
-	UPROPERTY()
 	TObjectPtr<UBehaviorTreeComponent>BehaviorTreeComponent;
 
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
+	TObjectPtr<UBlackboardComponent> BlackboardComponent;
 };

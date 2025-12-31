@@ -68,7 +68,7 @@ protected:
 	TObjectPtr<UWidgetComponent> EnemyHealthWidget;
 
 
-	//AI
+	//AIController
 	UPROPERTY(EditAnywhere,Category="AI")
 	TObjectPtr<UBehaviorTree>BehaviorTree;
 
