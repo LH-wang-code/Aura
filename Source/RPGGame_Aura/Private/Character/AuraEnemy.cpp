@@ -18,11 +18,12 @@ void AAuraEnemy::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 	AuraAIController = Cast<AAuraAIController>(NewController);
+	if (AuraAIController && BehaviorTree && BehaviorTree->BlackboardAsset)
+	{
+		AuraAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
+		AuraAIController->RunBehaviorTree(BehaviorTree);
+	}
 
-	AuraAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
-
-
-	AuraAIController->RunBehaviorTree(BehaviorTree);
 	
 }
 
