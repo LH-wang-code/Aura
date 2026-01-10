@@ -37,6 +37,11 @@ void AAuraEffectActor::BeginPlay()
 
 void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect>GameplayEffectClass)
 {
+	if (TargetActor->ActorHasTag(FName("Enemy")) && !bApplyEffectsToEnemies)
+	{
+		return;
+	}
+
 	//这个方法依赖于targetActor实现IAbilitySystemInterface，所以只会获得玩家控制角色
 	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 	if (TargetASC == nullptr)return;
@@ -82,12 +87,22 @@ EffectSpecHandle 是你之前通过 MakeOutgoingSpec() 构造的效果规格包�
 	if (bIsInfinite && InfiniteEffectRemovePolicy == EEffectRemovePolicy::RemoveEndOverlap)
 	{
 		ActiveEffectHandles.Add(ActiveEffectHandle, TargetASC);
+		return;
 
 	}
+	if (bDestoryOnEffectApplication && !bIsInfinite)
+	{
+		Destroy();
+	}
+
 }
 
 void AAuraEffectActor::OnOverlap(AActor* TargetActor)
 {
+	if (TargetActor->ActorHasTag(FName("Enemy")) && !bApplyEffectsToEnemies)
+	{
+		return;
+	}
 	if (InstantEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
 	{
 		ApplyEffectToTarget(TargetActor, InstantGameplayEffectClass);
@@ -106,6 +121,11 @@ void AAuraEffectActor::OnOverlap(AActor* TargetActor)
 
 void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
 {
+
+	if (TargetActor->ActorHasTag(FName("Enemy")) && !bApplyEffectsToEnemies)
+	{
+		return;
+	}
 	if (InstantEffectApplicationPolicy == EEffectApplicationPolicy::ApplyEndOverlap)
 	{
 		ApplyEffectToTarget(TargetActor, InstantGameplayEffectClass);
