@@ -45,7 +45,7 @@ void AAuraEnemy::PossessedBy(AController* NewController)
 		AuraAIController->RunBehaviorTree(BehaviorTree);
 	}
 	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), false);
-	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangeAttacker"), CharacterClass!=ECharacterClass::Marrier);
+	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangeAttacker"), CharacterClass!=ECharacterClass::Warrior);
 }
 
 

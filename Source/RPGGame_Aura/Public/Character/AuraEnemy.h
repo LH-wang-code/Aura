@@ -61,7 +61,7 @@ protected:
 	bool bHitReact = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
-	ECharacterClass CharacterClass=ECharacterClass::Marrier;
+	ECharacterClass CharacterClass=ECharacterClass::Warrior;
 
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)

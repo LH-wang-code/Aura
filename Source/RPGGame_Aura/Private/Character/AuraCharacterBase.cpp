@@ -112,6 +112,7 @@ void AAuraCharacterBase::InitializeDefaultAttributes()const
 
 void AAuraCharacterBase::AddCharacterAbilities()
 {
+	if (!AbilitySystemComponent)return;
 	UAuraAbilitySystemComponent* AuraASC=CastChecked<UAuraAbilitySystemComponent>(AbilitySystemComponent);
 	
 	if(!HasAuthority())return;

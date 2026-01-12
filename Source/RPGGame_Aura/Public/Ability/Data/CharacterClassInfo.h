@@ -13,7 +13,7 @@ UENUM(BlueprintType)
 enum class ECharacterClass : uint8
 {
 	Elementalist,
-	Marrier,
+	Warrior,
 	Ranger
 };
 
