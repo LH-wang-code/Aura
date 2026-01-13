@@ -45,8 +45,11 @@ public:
 	void HitReactTagChanged(const FGameplayTag CallbackTag,int32 NewCount);
 
 	virtual void Die()override;
+	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
+	virtual AActor* GetCombatTarget_Implementation() const override;
 
 protected:
+
 	virtual void BeginPlay()override;
 	virtual void InitAbilityActorInfo()override;
 	virtual void InitializeDefaultAttributes()const override;
@@ -59,6 +62,9 @@ protected:
 	float LifeSpan = 5.f;
 	UPROPERTY(BlueprintReadOnly,Category="Combat")
 	bool bHitReact = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	TObjectPtr<AActor>TargetCombat;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
 	ECharacterClass CharacterClass=ECharacterClass::Warrior;

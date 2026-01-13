@@ -7,7 +7,7 @@
 #include "Ability/Data/CharacterClassInfo.h" 
 #include "AuraAbilitySystemFunctionLibrary.generated.h"
  
-
+class UGameplayStatics;
 class UOverlayAuraWidgetController;
 
 /**
@@ -30,7 +30,7 @@ public:
 
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary| CharacterClassInfo")
-	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC);
+	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC,ECharacterClass CharacterClass);
 
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary| CharacterClassInfo")
@@ -50,4 +50,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySysteomLibrary | GameplayEffects")
 	static void SetIsCriticalHit(FGameplayEffectContextHandle& GameplayEffectContextHandle, bool bInIsCriticalHit);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySysteomLibrary | GameplayMachanics")
+	static void GetLivePlayersWithinRadius(const UObject* WorldObjectContext,TArray<AActor*>& OutOverlappingActors,TArray<AActor*> ActorsToIgnore,float Radius,const FVector& SphereOrigin);
+
 };

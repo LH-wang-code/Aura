@@ -25,7 +25,11 @@ class RPGGAME_AURA_API ICombatInterface
 public:
 
 	virtual int32 GetPlayerLevel();
-	virtual FVector GetCombatSocketLocation();
+
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	FVector GetCombatSocketLocation();
+		
 	UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
 	void UpdateFacingTarget(const FVector& WarpTarget);
 	
@@ -34,4 +38,11 @@ public:
 	UAnimMontage* GetHitReactMontage();
 
 	virtual void Die() = 0;
+
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	bool bIsDead() const;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	AActor* GetAvator() ;
 };

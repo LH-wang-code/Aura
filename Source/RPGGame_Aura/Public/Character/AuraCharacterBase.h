@@ -33,6 +33,11 @@ public:
 
 	virtual UAnimMontage* GetHitReactMontage_Implementation()override;
 	virtual void Die() override;
+
+	virtual bool bIsDead_Implementation()const override;
+	virtual AActor* GetAvator_Implementation() override;
+
+
 	UFUNCTION(NetMulticast,Reliable)
 	virtual void MulticastHandleDeath();
 
@@ -52,7 +57,7 @@ protected:
 	UPROPERTY(EditAnywhere,Category="Combat")
 	FName WeaponTipSocketName;
 
-	virtual FVector GetCombatSocketLocation() override;
+	virtual FVector GetCombatSocketLocation_Implementation() override;
 	
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
@@ -78,7 +83,7 @@ protected:
 	TObjectPtr<UMaterialInstance>WeaponDissolveMaterial;
 
 
-
+	bool bDead = false;
 
 protected:
 

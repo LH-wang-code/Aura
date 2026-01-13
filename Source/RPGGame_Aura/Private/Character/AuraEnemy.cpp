@@ -57,7 +57,7 @@ void AAuraEnemy::BeginPlay()
 	InitAbilityActorInfo();
 	if (HasAuthority())
 	{
-		UAuraAbilitySystemFunctionLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+		UAuraAbilitySystemFunctionLibrary::GiveStartupAbilities(this, AbilitySystemComponent,CharacterClass);
 	}
 
 	if (UAuraUserWidget* AuraUserWidget = Cast<UAuraUserWidget>(EnemyHealthWidget->GetUserWidgetObject()))
@@ -135,5 +135,15 @@ void AAuraEnemy::Die()
 {
 	SetLifeSpan(LifeSpan);
 	Super::Die();
+}
+
+void AAuraEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)
+{
+	TargetCombat = InCombatTarget;
+}
+
+AActor* AAuraEnemy::GetCombatTarget_Implementation() const
+{
+	return TargetCombat;
 }
 
