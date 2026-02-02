@@ -56,7 +56,7 @@ protected:
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Character Class Defaults")
 	int32 Level = 1;
 
-	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Combat")
 	float WalkSpeedBase = 250.f;
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Combat")
 	float LifeSpan = 5.f;

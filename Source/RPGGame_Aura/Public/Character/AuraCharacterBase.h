@@ -56,8 +56,16 @@ protected:
 
 	UPROPERTY(EditAnywhere,Category="Combat")
 	FName WeaponTipSocketName;
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName LeftHandSocketName;
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName RightHandSocketName;
 
-	virtual FVector GetCombatSocketLocation_Implementation() override;
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TArray<FTaggedMontageInfo> MontageInfo;
+
+	virtual TArray<FTaggedMontageInfo> GetAttackMontageTag_Implementation()override;
+	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& GameplayTag) override;
 	
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;

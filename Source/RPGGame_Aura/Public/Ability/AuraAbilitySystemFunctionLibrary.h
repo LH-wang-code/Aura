@@ -54,4 +54,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySysteomLibrary | GameplayMachanics")
 	static void GetLivePlayersWithinRadius(const UObject* WorldObjectContext,TArray<AActor*>& OutOverlappingActors,TArray<AActor*> ActorsToIgnore,float Radius,const FVector& SphereOrigin);
 
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySysteomLibrary | GameplayMachanics")
+	static bool IsNotFriend(AActor* FirstActor, AActor* SecondActor);
 };

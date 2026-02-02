@@ -11,6 +11,7 @@
 #include "Ability/AuraAttributeSet.h"
 #include "AuraAbilityTypes.h"
 #include "Logging/LogMacros.h"
+#include <../../../../../../../Source/Runtime/GameplayTags/Classes/GameplayTagContainer.h>
 void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                            const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
                                            const FGameplayEventData* TriggerEventData)
@@ -35,10 +36,10 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 	{
 		
 
-		const FVector SocketLocation= ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo());
+		const FVector SocketLocation= ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(),FAuraGameplayTags::Get().Montage_Attack_Weapon);
 
 		FRotator Rotation=(ProjectileTargetLocation-SocketLocation).Rotation();
-		Rotation.Pitch=0.f;
+		//Rotation.Pitch=0.f;
 		
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(SocketLocation);
