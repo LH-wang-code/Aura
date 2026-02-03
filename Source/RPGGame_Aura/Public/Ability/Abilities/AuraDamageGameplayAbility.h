@@ -9,6 +9,7 @@
 /**
  * 
  */
+struct FTaggedMontageInfo;
 UCLASS()
 class RPGGAME_AURA_API UAuraDamageGameplayAbility : public UAuraGameplayAbility
 {
@@ -26,5 +27,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CauseDamage(AActor* TargetActor);
 
+	UFUNCTION(BlueprintPure)
+	FTaggedMontageInfo GetRandomMontageFromInfoArray(const TArray<FTaggedMontageInfo>& MontageInfoArray);
 
 };

@@ -11,6 +11,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "Logging/LogMacros.h"
+#include "Ability/AuraAbilitySystemFunctionLibrary.h"
 AAuraProjectile::AAuraProjectile()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -55,10 +56,11 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
                                       UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Projectile has Overlapped!!!"));
-	if (!OtherActor)return;
-
-
 	if (DamageEffectSpecHandle.Data.Get()&&   DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser() == OtherActor)
+	{
+		return;
+	}
+	if (!UAuraAbilitySystemFunctionLibrary::IsNotFriend(DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser(), OtherActor))
 	{
 		return;
 	}
