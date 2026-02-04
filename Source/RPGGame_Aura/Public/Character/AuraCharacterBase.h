@@ -18,6 +18,7 @@ class UGameplayAbility;
 class UAnimMontage;
 class UMaterialInstance;
 class UMaterialInstanceDynamic;
+class UNiagaraSystem;
 UCLASS(Abstract)
 class RPGGAME_AURA_API AAuraCharacterBase : public ACharacter,public IAbilitySystemInterface,public ICombatInterface
 {
@@ -64,9 +65,12 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontageInfo> MontageInfo;
 
+	UPROPERTY(EditAnywhere,BlueprintReadOnly)
+	UNiagaraSystem* BloodEffect;
+
 	virtual TArray<FTaggedMontageInfo> GetAttackMontageTag_Implementation()override;
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& GameplayTag) override;
-	
+	virtual UNiagaraSystem* GetBloodEffect_Implementation()override;
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY()
@@ -101,7 +105,7 @@ protected:
 
 
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect>GameplayEffectClass, float Level)const;
-
+	
 
 	virtual void InitializeDefaultAttributes()const;
 

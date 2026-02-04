@@ -108,6 +108,11 @@ TArray<FTaggedMontageInfo> AAuraCharacterBase::GetAttackMontageTag_Implementatio
 	return MontageInfo;
 }
 
+UNiagaraSystem* AAuraCharacterBase::GetBloodEffect_Implementation()
+{
+	return BloodEffect;
+}
+
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
