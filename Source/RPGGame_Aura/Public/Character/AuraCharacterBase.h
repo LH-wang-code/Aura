@@ -19,6 +19,7 @@ class UAnimMontage;
 class UMaterialInstance;
 class UMaterialInstanceDynamic;
 class UNiagaraSystem;
+struct FTaggedMontageInfo;
 UCLASS(Abstract)
 class RPGGAME_AURA_API AAuraCharacterBase : public ACharacter,public IAbilitySystemInterface,public ICombatInterface
 {
@@ -68,9 +69,13 @@ protected:
 	UPROPERTY(EditAnywhere,BlueprintReadOnly)
 	UNiagaraSystem* BloodEffect;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	USoundBase* DeathSound;
+
 	virtual TArray<FTaggedMontageInfo> GetAttackMontageTag_Implementation()override;
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& GameplayTag) override;
 	virtual UNiagaraSystem* GetBloodEffect_Implementation()override;
+	virtual FTaggedMontageInfo GetTaggedMontageInfoByTag_Implementation(const FGameplayTag& Tag)override;
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY()

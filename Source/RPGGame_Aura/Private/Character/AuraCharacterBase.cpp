@@ -7,6 +7,8 @@
 #include "Ability/AuraAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "AuraGameplayTags.h"
+#include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
@@ -48,6 +50,8 @@ AActor* AAuraCharacterBase::GetAvator_Implementation()
 
 void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 {
+
+	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
 	Weapon->SetSimulatePhysics(true);
 	Weapon->SetEnableGravity(true);
 	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
@@ -88,15 +92,15 @@ FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGamepl
 {
 	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 
-	if (IsValid(Weapon) && GameplayTag.MatchesTagExact(GameplayTags.Montage_Attack_Weapon))
+	if (IsValid(Weapon) && GameplayTag.MatchesTagExact(GameplayTags.CombatSocket_Weapon))
 	{
 		return Weapon->GetSocketLocation(WeaponTipSocketName);
 	}
-	if (GameplayTag.MatchesTagExact(GameplayTags.Montage_Attack_LeftHand))
+	if (GameplayTag.MatchesTagExact(GameplayTags.CombatSocket_LeftHand))
 	{
 		return GetMesh()->GetSocketLocation(LeftHandSocketName);
 	}
-	if (GameplayTag.MatchesTagExact(GameplayTags.Montage_Attack_RightHand))
+	if (GameplayTag.MatchesTagExact(GameplayTags.CombatSocket_RightHand))
 	{
 		return GetMesh()->GetSocketLocation(RightHandSocketName);
 	}
@@ -111,6 +115,18 @@ TArray<FTaggedMontageInfo> AAuraCharacterBase::GetAttackMontageTag_Implementatio
 UNiagaraSystem* AAuraCharacterBase::GetBloodEffect_Implementation()
 {
 	return BloodEffect;
+}
+
+FTaggedMontageInfo AAuraCharacterBase::GetTaggedMontageInfoByTag_Implementation(const FGameplayTag& Tag)
+{
+	for (FTaggedMontageInfo TaggedMontageInfo : MontageInfo)
+	{
+		if (TaggedMontageInfo.MontageTag == Tag)
+		{
+			return TaggedMontageInfo;
+		}
+	}
+	return FTaggedMontageInfo();
 }
 
 void AAuraCharacterBase::BeginPlay()
