@@ -85,6 +85,7 @@ void AAuraEnemy::BeginPlay()
 	
 		OnHealthChanged.Broadcast(AS->GetHealth());
 		OnMaxHealthChanged.Broadcast(AS->GetMaxHealth());
+		
 	}
 }
 
@@ -126,13 +127,14 @@ int32 AAuraEnemy::GetPlayerLevel()
 
 void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallbackTag,int32 NewCount)
 {
-	bHitReact = NewCount > 0.f;
+	bHitReact = NewCount > 0;
 	GetCharacterMovement()->MaxWalkSpeed = bHitReact ? 0.f : WalkSpeedBase;
 	if (AuraAIController && AuraAIController->GetBlackboardComponent())
 	{
-		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), true);
-
+		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReact);
+		
 	}
+	UE_LOG(LogTemp, Warning, TEXT("HitReactTagChanged!"));
 }
 
 void AAuraEnemy::Die()

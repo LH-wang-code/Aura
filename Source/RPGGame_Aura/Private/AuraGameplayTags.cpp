@@ -102,9 +102,12 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.CombatSocket_Weapon = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("CombatSocket.Weapon"), FString("CombatSocket Weapon"));
 	GameplayTags.CombatSocket_LeftHand = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("CombatSocket.LeftHand"), FString("CombatSocket Hand"));
+		FName("CombatSocket.LeftHand"), FString("CombatSocket Left Hand"));
 	GameplayTags.CombatSocket_RightHand = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("CombatSocket.RightHand"), FString("CombatSocket Hand"));
+		FName("CombatSocket.RightHand"), FString("CombatSocket Right Hand"));
+
+	GameplayTags.CombatSocket_Tail = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("CombatSocket.Tail"), FString("CombatSocket Tail"));
 
 	//Montage Attack
 	GameplayTags.Montage_Attack_1 = UGameplayTagsManager::Get().AddNativeGameplayTag(

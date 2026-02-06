@@ -64,6 +64,9 @@ protected:
 	FName RightHandSocketName;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName TailSocketName;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontageInfo> MontageInfo;
 
 	UPROPERTY(EditAnywhere,BlueprintReadOnly)
