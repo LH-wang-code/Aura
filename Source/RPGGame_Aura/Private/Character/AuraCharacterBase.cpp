@@ -133,6 +133,16 @@ FTaggedMontageInfo AAuraCharacterBase::GetTaggedMontageInfoByTag_Implementation(
 	return FTaggedMontageInfo();
 }
 
+int32 AAuraCharacterBase::GetMinionAmount_Implementation()
+{
+	return MinionCount;
+}
+
+void AAuraCharacterBase::IncreaseMinionAmount_Implementation(int32 Amount)
+{
+	MinionCount += Amount;
+}
+
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();

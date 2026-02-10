@@ -43,7 +43,7 @@ public:
 	UFUNCTION(NetMulticast,Reliable)
 	virtual void MulticastHandleDeath();
 
-
+	
 
 	void Dissolve();
 
@@ -52,6 +52,8 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void WeaponStartupTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+
+	int32 MinionCount;
 protected:
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
@@ -79,6 +81,10 @@ protected:
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& GameplayTag) override;
 	virtual UNiagaraSystem* GetBloodEffect_Implementation()override;
 	virtual FTaggedMontageInfo GetTaggedMontageInfoByTag_Implementation(const FGameplayTag& Tag)override;
+	virtual int32 GetMinionAmount_Implementation()override;
+	virtual void IncreaseMinionAmount_Implementation(int32 Amount)override;
+
+	
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY()

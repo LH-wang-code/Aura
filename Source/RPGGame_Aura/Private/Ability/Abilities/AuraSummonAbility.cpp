@@ -36,8 +36,6 @@ TArray<FVector> UAuraSummonAbility::GetActorSpawnLocation()
 	//UKismetSystemLibrary::DrawDebugArrow(GetAvatarActorFromActorInfo(), Location, Location + RightOfSpread * MaxDistance, 4.f, FLinearColor::Gray,3.f);
 	//DrawDebugSphere(GetWorld(), Location + MinDistance * RightOfSpread, 15.f, 12, FColor::Green, false, 3.f);
 	//DrawDebugSphere(GetWorld(), Location + MaxDistance * RightOfSpread, 15.f, 12, FColor::Green, false, 3.f);
-
-
 	return MinionLocation;
 }
 

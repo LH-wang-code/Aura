@@ -67,6 +67,7 @@ public:
 
 
 	FGameplayTag Abilities_Attack;
+	FGameplayTag Abilities_Summon;
 
 	TMap<FGameplayTag,FGameplayTag>DamageTypesToResistance;
 

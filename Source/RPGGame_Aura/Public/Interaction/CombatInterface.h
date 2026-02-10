@@ -75,4 +75,11 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	FTaggedMontageInfo GetTaggedMontageInfoByTag(const FGameplayTag& Tag);
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	int32 GetMinionAmount();
+	
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void IncreaseMinionAmount(int32 Amount);
+
 };
