@@ -74,7 +74,7 @@ void UAuraAbilitySystemFunctionLibrary::InitializeDefaultCharacterClassInfo(cons
 	FGameplayEffectSpecHandle VitalEffectSpecHandle = ASC->MakeOutgoingSpec(CharacterClassInfo->VitalAttributes, level, VitalEffectContextHandle);
 	ASC->ApplyGameplayEffectSpecToSelf(*VitalEffectSpecHandle.Data.Get());
 }
-//¸³ÓèÊôÐÔ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void UAuraAbilitySystemFunctionLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC,ECharacterClass CharacterClass)
 {
 	UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
@@ -96,7 +96,7 @@ void UAuraAbilitySystemFunctionLibrary::GiveStartupAbilities(const UObject* Worl
 		}
 	}
 }
-//»ñÈ¡½ÇÉ«ÀàÐÅÏ¢
+//ï¿½ï¿½È¡ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½Ï¢
 UCharacterClassInfo* UAuraAbilitySystemFunctionLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
 {
 	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
@@ -138,7 +138,7 @@ void UAuraAbilitySystemFunctionLibrary::SetIsCriticalHit(FGameplayEffectContextH
 		AuraEffectContext->SetIsCriticalHit(bInIsCriticalHit);
 	}
 }
-//·¶Î§ÄÚµÄactor
+//ï¿½ï¿½Î§ï¿½Úµï¿½actor
 void UAuraAbilitySystemFunctionLibrary::GetLivePlayersWithinRadius(const UObject* WorldObjectContext, TArray<AActor*>& OutOverlappingActors, TArray<AActor*> ActorsToIgnore, float Radius, const FVector& SphereOrigin)
 {
 	FCollisionQueryParams SphereParams;
@@ -152,7 +152,7 @@ void UAuraAbilitySystemFunctionLibrary::GetLivePlayersWithinRadius(const UObject
 
 		for (FOverlapResult & Overlap : Overlaps)
 		{
-			//ÅÐ¶ÏÊÇ·ñ´æÔÚIcombatInterfaceºÍActorÊÇ·ñËÀÍö
+			//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½IcombatInterfaceï¿½ï¿½Actorï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (Overlap.GetActor()->Implements<UCombatInterface>() && !ICombatInterface::Execute_bIsDead(Overlap.GetActor()))
 			{
 				OutOverlappingActors.AddUnique(ICombatInterface::Execute_GetAvator(Overlap.GetActor()));
