@@ -7,7 +7,7 @@
 #include "AbilitySystemComponent.h"
 #include "AuraAttributeSet.generated.h"
 
- #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
+#define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
  	GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
  	GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
  	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
@@ -28,16 +28,16 @@ struct FEffectProperties
 	FGameplayEffectContextHandle EffectContextHandle;
 
 	UPROPERTY()
-	UAbilitySystemComponent* SourceASC=nullptr;
+	UAbilitySystemComponent* SourceASC = nullptr;
 
 	UPROPERTY()
-	AActor* SourceAvatarActor=nullptr;
+	AActor* SourceAvatarActor = nullptr;
 	UPROPERTY()
 
-	AController* SourceController=nullptr;
+	AController* SourceController = nullptr;
 	UPROPERTY()
 
-	ACharacter* SourceCharacter=nullptr;
+	ACharacter* SourceCharacter = nullptr;
 
 	UPROPERTY()
 	UAbilitySystemComponent* TargetASC = nullptr;
@@ -56,16 +56,16 @@ struct FEffectProperties
 //typedef TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr AttributeFuncPointer;
 
 template<class T>
-using TStaticFuncPtr= typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
+using TStaticFuncPtr = typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
 
 /**
- * 
+ *
  */
 UCLASS()
 class RPGGAME_AURA_API UAuraAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
-	
+
 public:
 	UAuraAttributeSet();
 
@@ -101,7 +101,7 @@ public:
 
 	/*
 	*Second Attributes
-		
+
 	*/
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "AttributeSets")
 	FGameplayAttributeData Armor;
@@ -192,7 +192,7 @@ public:
 	*	Vital Attributes
 	*/
 
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_Health,Category="AttributeSets")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "AttributeSets")
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Health);
 
@@ -213,11 +213,11 @@ public:
 
 
 	UFUNCTION()
-	void OnRep_Health(FGameplayAttributeData& OldHealth)const ;
+	void OnRep_Health(FGameplayAttributeData& OldHealth)const;
 
 	UFUNCTION()
 	void OnRep_MaxHealth(FGameplayAttributeData& OldMaxHealth)const;
-	
+
 	UFUNCTION()
 	void OnRep_Mana(FGameplayAttributeData& OldMana)const;
 
@@ -288,6 +288,6 @@ public:
 
 
 private:
-	void SetEffectProperties(const FGameplayEffectModCallbackData& Data,FEffectProperties& Props)const;
+	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props)const;
 
 };
