@@ -20,9 +20,6 @@ public:
 	FGameplayTag Attributes_Primary_Resilience;
 	FGameplayTag Attributes_Primary_Intelligence;
 
-
-
-
 	FGameplayTag Attributes_Secondary_Armor;
 	FGameplayTag Attributes_Secondary_ArmorPenetration;
 	FGameplayTag Attributes_Secondary_BlockChance;
@@ -75,6 +72,7 @@ public:
 	FGameplayTag Effects_HitReact;
 
 	FGameplayTag Abilities_Fire_FireBolt;
+	FGameplayTag Cooldown_Fire_FireBolt;
 
 private:
 	static FAuraGameplayTags GameplayTags;
