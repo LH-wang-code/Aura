@@ -66,9 +66,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	TObjectPtr<AActor>TargetCombat;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
-	ECharacterClass CharacterClass=ECharacterClass::Warrior;
-
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> EnemyHealthWidget;

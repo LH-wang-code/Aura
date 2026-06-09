@@ -100,8 +100,6 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Effects_HitReact= UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Effects.HitReact"), FString("Effects to Make goblin react"));  
 
-
-
 	GameplayTags.Abilities_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Abilities.Fire.FireBolt"), FString("FireBolt Abilities Tag"));
 	GameplayTags.Cooldown_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(
@@ -127,4 +125,9 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("Montage.Attack.3"), FString("Attack 3"));
 	GameplayTags.Montage_Attack_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Montage.Attack.4"), FString("Attack 4"));
+
+
+	//Meta Attribute
+	GameplayTags.Attributes_Meta_InComingXP = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Meta.InComingXP"), FString("Attributes_Meta_InComingXP"));
 }

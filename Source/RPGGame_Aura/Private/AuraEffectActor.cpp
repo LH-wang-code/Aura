@@ -19,9 +19,7 @@ AAuraEffectActor::AAuraEffectActor()
 	//Sphere = CreateDefaultSubobject<USphereComponent>("Sphere");
 	//Sphere->SetupAttachment(GetRootComponent());
 	SetRootComponent(CreateDefaultSubobject<USceneComponent>("RootComponent"));
-
 }
-
 
 void AAuraEffectActor::BeginPlay()
 {

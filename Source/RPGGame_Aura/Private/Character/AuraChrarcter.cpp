@@ -23,6 +23,7 @@ AAuraChrarcter::AAuraChrarcter()
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
 
+	CharacterClass = ECharacterClass::Elementalist;
 }
 
 //控制器控制角色时调用，abillity给到角色

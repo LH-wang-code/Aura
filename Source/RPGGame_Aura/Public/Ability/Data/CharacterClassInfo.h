@@ -28,6 +28,10 @@ struct  FCharacterClassDefaultInfo
 
 	UPROPERTY(EditDefaultsOnly, Category = "Default Class")
 	TArray<TSubclassOf<UGameplayAbility>>StartupAbilities;
+
+	//f
+	UPROPERTY(EditDefaultsOnly, Category = "Default Class")
+	FScalableFloat XPReward = FScalableFloat();
 };
 
 /**

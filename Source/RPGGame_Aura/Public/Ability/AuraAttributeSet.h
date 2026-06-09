@@ -210,7 +210,9 @@ public:
 	FGameplayAttributeData IncomingDamage;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage);
 
-
+	UPROPERTY(BlueprintReadOnly, Category = "MetaAttributeSets")
+	FGameplayAttributeData InComingXP;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, InComingXP);
 
 	UFUNCTION()
 	void OnRep_Health(FGameplayAttributeData& OldHealth)const;
@@ -289,5 +291,7 @@ public:
 
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props)const;
+
+	void SendXPEvent(const FEffectProperties& Props);
 
 };

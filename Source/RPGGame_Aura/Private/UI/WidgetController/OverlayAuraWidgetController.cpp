@@ -5,6 +5,7 @@
 #include "Ability/AuraAttributeSet.h"
 #include "Ability/AuraAbilitySystemComponent.h"
 #include "GameplayAbilitySpec.h"
+#include "Player/AuraPlayerState.h"
 
 void UOverlayAuraWidgetController::BroadcastInitialValues()
 {
@@ -17,7 +18,15 @@ void UOverlayAuraWidgetController::BroadcastInitialValues()
 
 void UOverlayAuraWidgetController::BindCallbacksToDependencies()
 {
+	//经验及升级相关
+	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
+	AuraPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayAuraWidgetController::OnXPChanged);
+	AuraPlayerState->OnLevelChangedDelegate.AddUObject(this, &UOverlayAuraWidgetController::OnLevelChanged);
+
+
+	//属性广播
 	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
+
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
 		AuraAttributeSet->GetHealthAttribute()).AddLambda(
 		[this](const FOnAttributeChangeData& Data)
@@ -78,6 +87,30 @@ void UOverlayAuraWidgetController::BindCallbacksToDependencies()
 
 	//GEngine->AddOnScreenDebugMessage(1, 8.f, FColor::Blue, FString("Effect Applied!"));
 
+	
+}
+
+void UOverlayAuraWidgetController::OnXPChanged(int32 InXP)
+{
+	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
+	if (ULevelUpInfo* LevelUpInfo = AuraPlayerState->LevelUpInfo)
+	{
+		int level = LevelUpInfo->FindLevelForXP(InXP);
+		int MaxLevel = LevelUpInfo->LevelUpInfo.Num();
+		if (MaxLevel >= level && level > 0)
+		{
+			//对应等级所需经验
+			int32 LevelUpRequirement = LevelUpInfo->LevelUpInfo[level].LevelUpRequirement;
+			int32 preLevelUpRequirement= LevelUpInfo->LevelUpInfo[level-1].LevelUpRequirement;
+			int32 DelLevelUpRequirement = InXP - preLevelUpRequirement;
+			OnXPPercentChangedSignature.Broadcast(DelLevelUpRequirement * 1.0f / LevelUpRequirement );
+		}
+	}
+
+}
+
+void UOverlayAuraWidgetController::OnLevelChanged(int32 InLevel)
+{
 
 }
 

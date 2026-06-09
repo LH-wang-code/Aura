@@ -36,6 +36,7 @@ public:
 	FGameplayTag Attributes_Resistance_Arcane;
 	FGameplayTag Attributes_Resistance_Physical;
 
+	FGameplayTag Attributes_Meta_InComingXP;
 
 	FGameplayTag InputTag_LMB;
 	FGameplayTag InputTag_RMB;
@@ -73,6 +74,9 @@ public:
 
 	FGameplayTag Abilities_Fire_FireBolt;
 	FGameplayTag Cooldown_Fire_FireBolt;
+
+
+	
 
 private:
 	static FAuraGameplayTags GameplayTags;

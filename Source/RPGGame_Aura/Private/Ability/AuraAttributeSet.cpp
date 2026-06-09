@@ -11,6 +11,7 @@
 #include "Player/AuraPlayerController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Ability/AuraAbilitySystemFunctionLibrary.h"
+#include "Interaction/CombatInterface.h"
 UAuraAttributeSet::UAuraAttributeSet()
 {
 	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
@@ -155,6 +156,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				if (CombatInterface)
 				{
 					CombatInterface->Die();
+					//怪物死亡时，发送经验值
+					SendXPEvent(Props);
 				}
 				
 			}
@@ -176,10 +179,18 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			}
 
 		}
+		if (Data.EvaluatedData.Attribute == GetInComingXPAttribute())
+		{
+			//经验值，同时对临时值清零
+			const float LocalInComingXP = GetInComingXP();
+			SetInComingXP(0.f);
+		}
 
 	}
 	
 }
+
+
 
 void UAuraAttributeSet::OnRep_Health(FGameplayAttributeData& OldHealth) const
 {
@@ -259,7 +270,6 @@ void UAuraAttributeSet::OnRep_CriticalHitDamage(FGameplayAttributeData& OldCriti
 void UAuraAttributeSet::OnRep_CriticalHitResistance(FGameplayAttributeData& OldCriticalHitResistance) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, CriticalHitResistance, OldCriticalHitResistance);
-
 }
 
 void UAuraAttributeSet::OnRep_HealthRegeneration(FGameplayAttributeData& OldHealthRegeneration) const
@@ -352,4 +362,23 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 		Props.TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Props.TargetAvatarActor);
 	}
 
+}
+
+void UAuraAttributeSet::SendXPEvent(const FEffectProperties& Props)
+{
+	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetCharacter))
+	{
+		//从target对象获取经验
+		int32 level = CombatInterface->GetPlayerLevel();
+		ECharacterClass CharacterClass = ICombatInterface::Execute_GetCharacterClass(Props.TargetCharacter);
+		int32 XPReward=UAuraAbilitySystemFunctionLibrary::GetXPRewardForCharacterClassAndLevel(Props.TargetCharacter, CharacterClass, level);
+	
+		//在GE_listeningforevent我们做了监听事件，在这里我们发出去，该方法在目标对象死亡时调用
+		const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+
+		FGameplayEventData Payload;
+		Payload.EventTag = GameplayTags.Attributes_Meta_InComingXP;
+		Payload.EventMagnitude = XPReward;
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Props.SourceCharacter,GameplayTags.Attributes_Meta_InComingXP, Payload);
+	}
 }

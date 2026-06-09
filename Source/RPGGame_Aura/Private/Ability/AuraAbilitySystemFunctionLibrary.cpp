@@ -74,7 +74,7 @@ void UAuraAbilitySystemFunctionLibrary::InitializeDefaultCharacterClassInfo(cons
 	FGameplayEffectSpecHandle VitalEffectSpecHandle = ASC->MakeOutgoingSpec(CharacterClassInfo->VitalAttributes, level, VitalEffectContextHandle);
 	ASC->ApplyGameplayEffectSpecToSelf(*VitalEffectSpecHandle.Data.Get());
 }
-//��������
+//
 void UAuraAbilitySystemFunctionLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC,ECharacterClass CharacterClass)
 {
 	UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
@@ -96,7 +96,17 @@ void UAuraAbilitySystemFunctionLibrary::GiveStartupAbilities(const UObject* Worl
 		}
 	}
 }
-//��ȡ��ɫ����Ϣ
+
+int32 UAuraAbilitySystemFunctionLibrary::GetXPRewardForCharacterClassAndLevel(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 level)
+{
+	//通过角色类别和leve找到对应的xp
+	UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
+	if (CharacterClassInfo == nullptr)return 0;
+	const FCharacterClassDefaultInfo DefaultInfo = CharacterClassInfo->GetInfoWithECharacterClass(CharacterClass);
+	float XPReward=DefaultInfo.XPReward.GetValueAtLevel(level);
+	return static_cast<int32>(XPReward);
+}
+//
 UCharacterClassInfo* UAuraAbilitySystemFunctionLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
 {
 	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
@@ -176,3 +186,4 @@ bool UAuraAbilitySystemFunctionLibrary::IsNotFriend(AActor* FirstActor, AActor* 
 	const bool IsFirend = BothArePlayer || BothAreEnemy;
 	return !IsFirend;
 }
+

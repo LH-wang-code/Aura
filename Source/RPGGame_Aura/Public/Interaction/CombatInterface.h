@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
 #include "GameplayTagContainer.h"
+#include "Ability/Data/CharacterClassInfo.h"
 #include "CombatInterface.generated.h"
 class UAnimMontage;
 class UNiagaraSystem;
@@ -81,5 +82,8 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void IncreaseMinionAmount(int32 Amount);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	ECharacterClass GetCharacterClass();
 
 };

@@ -38,6 +38,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidge
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature,const FAuraAbilityInfo&,Info);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnXPPercentChangedSignature, float, NewValue);
+
 /**
  * 
  */
@@ -69,6 +71,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
 	FAbilityInfoSignature AbilityInfoSignature;
 
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
+	FOnXPPercentChangedSignature OnXPPercentChangedSignature;
+
 protected:
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Widget Data")
@@ -81,6 +86,9 @@ protected:
 	void MaxHealthChanged(const FOnAttributeChangeData& Data)const;
 	void ManaChanged(const FOnAttributeChangeData& Data)const;
 	void MaxManaChanged(const FOnAttributeChangeData& Data)const;
+
+	void OnXPChanged(int32 InXP);
+	void OnLevelChanged(int32 InLevel);
 
 	template<typename T>
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);

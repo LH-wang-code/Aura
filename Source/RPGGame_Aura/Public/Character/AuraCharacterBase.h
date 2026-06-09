@@ -108,10 +108,14 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UMaterialInstance>WeaponDissolveMaterial;
 
+	virtual ECharacterClass GetCharacterClass_Implementation()override;
 
 	bool bDead = false;
 
 protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
+	ECharacterClass CharacterClass = ECharacterClass::Warrior;
 
 	virtual void BeginPlay() override;
 
@@ -127,6 +131,10 @@ protected:
 private:
 	UPROPERTY(EditAnywhere,Category="Abilities")
 	TArray<TSubclassOf<UGameplayAbility>>StartupAbilities;
+	
+
+	UPROPERTY(EditAnywhere, Category = "Abilities")
+	TArray<TSubclassOf<UGameplayAbility>>StartupPassiveAbilities;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<UAnimMontage>HitReactAnim;
