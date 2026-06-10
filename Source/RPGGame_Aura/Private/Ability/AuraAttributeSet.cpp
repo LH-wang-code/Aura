@@ -12,6 +12,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Ability/AuraAbilitySystemFunctionLibrary.h"
 #include "Interaction/CombatInterface.h"
+#include "Interaction/PlayerInterface.h"
 UAuraAttributeSet::UAuraAttributeSet()
 {
 	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
@@ -39,7 +40,6 @@ UAuraAttributeSet::UAuraAttributeSet()
 	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Physical, GetPhysicalResistanceAttribute);
 
 
-
 	//for (const auto& Pair : TagsToAttributes)
 	//{
 	//	if (Pair.Value)
@@ -53,8 +53,6 @@ UAuraAttributeSet::UAuraAttributeSet()
 	//		UE_LOG(LogTemp, Error, TEXT("[TagsToAttributes] Missing delegate for tag: %s"), *Pair.Key.ToString());
 	//	}
 	//}
-
-
 
 }
 
@@ -159,15 +157,13 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 					//怪物死亡时，发送经验值
 					SendXPEvent(Props);
 				}
-				
-			}
+			} 
 			else
 			{ 
 				FGameplayTagContainer TagContainer;
 				TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
 				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
 			}
-
 			const bool bBlockedHit = UAuraAbilitySystemFunctionLibrary::IsBlockedHit(Props.EffectContextHandle);
 			const bool bCriticalHit = UAuraAbilitySystemFunctionLibrary::IsCriticalHit(Props.EffectContextHandle);
 			if (Props.SourceCharacter != Props.TargetCharacter)
@@ -179,18 +175,47 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			}
 
 		}
-		if (Data.EvaluatedData.Attribute == GetInComingXPAttribute())
+	}
+	if (Data.EvaluatedData.Attribute == GetInComingXPAttribute())
+	{
+		//经验值，同时对临时值清零
+		UE_LOG(LogTemp, Warning, TEXT("GetInComingXPAttribute !!!"));
+
+		const float LocalInComingXP = GetInComingXP();
+		SetInComingXP(0.f);
+		if (Props.SourceCharacter->Implements<UPlayerInterface>())
 		{
-			//经验值，同时对临时值清零
-			const float LocalInComingXP = GetInComingXP();
-			SetInComingXP(0.f);
+			UE_LOG(LogTemp, Warning, TEXT("Execute_AddToXP Executed"));
+
+
+			const int32 PlayerLevel = ICombatInterface::Execute_GetPlayerLevel(Props.SourceCharacter);
+			const int32 PlayerXP = IPlayerInterface::Execute_GetXP(Props.SourceCharacter);
+
+			const int32 NewLevel = IPlayerInterface::Execute_FindLevelForXP(Props.SourceCharacter,PlayerXP+LocalInComingXP);
+			const int32 NumLevelUps = NewLevel - PlayerLevel;
+
+			if (NumLevelUps > 0)
+			{
+
+				int32 AttributePointsReward = IPlayerInterface::Execute_GetAttributePointsReward(Props.SourceCharacter, PlayerLevel);
+				int32 SpellPointsReward = IPlayerInterface::Execute_GetSpellPointsReward(Props.SourceCharacter, PlayerLevel);
+				IPlayerInterface::Execute_AddToPlayerLevel(Props.SourceCharacter, NumLevelUps);
+				IPlayerInterface::Execute_AddToAttributePoints(Props.SourceCharacter, AttributePointsReward);
+				IPlayerInterface::Execute_AddToSpellPoints(Props.SourceCharacter, SpellPointsReward);
+
+				SetHealth(GetMaxHealth());
+				SetMana(GetMaxMana());
+
+
+				IPlayerInterface::Execute_LevelUp(Props.SourceCharacter);
+			}
+
+			IPlayerInterface::Execute_AddToXP(Props.SourceCharacter, LocalInComingXP);
 		}
 
 	}
 	
 }
-
-
 
 void UAuraAttributeSet::OnRep_Health(FGameplayAttributeData& OldHealth) const
 {
@@ -327,7 +352,6 @@ void UAuraAttributeSet::OnRep_PhysicalResistance(FGameplayAttributeData& OldPhys
 
 void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props)const
 {
-
 	Props.EffectContextHandle = Data.EffectSpec.GetContext();
 	Props.SourceASC = Props.EffectContextHandle.GetOriginalInstigatorAbilitySystemComponent();
 
@@ -344,32 +368,26 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 
 			}
 		}
-
 		if (Props.SourceController)
 		{
 			Props.SourceCharacter = Cast<ACharacter>(Props.SourceController->GetPawn());
-
 		}
-
 	}
-
 	if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
 	{
 		Props.TargetAvatarActor= Data.Target.AbilityActorInfo->AvatarActor.Get();
 		Props.TargetController = Data.Target.AbilityActorInfo->PlayerController.Get();
 		Props.TargetCharacter = Cast<ACharacter>(Props.TargetAvatarActor);
-
 		Props.TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Props.TargetAvatarActor);
 	}
-
 }
 
 void UAuraAttributeSet::SendXPEvent(const FEffectProperties& Props)
 {
-	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetCharacter))
+	if (Props.TargetCharacter->Implements<UCombatInterface>())
 	{
 		//从target对象获取经验
-		int32 level = CombatInterface->GetPlayerLevel();
+		int32 level = ICombatInterface::Execute_GetPlayerLevel(Props.TargetCharacter);
 		ECharacterClass CharacterClass = ICombatInterface::Execute_GetCharacterClass(Props.TargetCharacter);
 		int32 XPReward=UAuraAbilitySystemFunctionLibrary::GetXPRewardForCharacterClassAndLevel(Props.TargetCharacter, CharacterClass, level);
 	
@@ -382,3 +400,5 @@ void UAuraAttributeSet::SendXPEvent(const FEffectProperties& Props)
 		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Props.SourceCharacter,GameplayTags.Attributes_Meta_InComingXP, Payload);
 	}
 }
+
+

@@ -40,6 +40,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature,const FAuraAbi
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnXPPercentChangedSignature, float, NewValue);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerStateChangedSignature, int32, NewValue);
+
 /**
  * 
  */
@@ -74,6 +76,8 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
 	FOnXPPercentChangedSignature OnXPPercentChangedSignature;
 
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
+	FOnPlayerStateChangedSignature OnPlayerLevelChangedDelegate;
 protected:
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Widget Data")

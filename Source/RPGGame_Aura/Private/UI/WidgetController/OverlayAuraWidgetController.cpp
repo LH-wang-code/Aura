@@ -21,8 +21,15 @@ void UOverlayAuraWidgetController::BindCallbacksToDependencies()
 	//经验及升级相关
 	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
 	AuraPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayAuraWidgetController::OnXPChanged);
-	AuraPlayerState->OnLevelChangedDelegate.AddUObject(this, &UOverlayAuraWidgetController::OnLevelChanged);
+	//AuraPlayerState->OnLevelChangedDelegate.AddUObject(this, &UOverlayAuraWidgetController::OnLevelChanged);
 
+	AuraPlayerState->OnLevelChangedDelegate.AddLambda(
+		[this](int32 NewLevel)
+		{
+			OnPlayerLevelChangedDelegate.Broadcast(NewLevel);
+		}
+
+	);
 
 	//属性广播
 	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
@@ -103,7 +110,9 @@ void UOverlayAuraWidgetController::OnXPChanged(int32 InXP)
 			int32 LevelUpRequirement = LevelUpInfo->LevelUpInfo[level].LevelUpRequirement;
 			int32 preLevelUpRequirement= LevelUpInfo->LevelUpInfo[level-1].LevelUpRequirement;
 			int32 DelLevelUpRequirement = InXP - preLevelUpRequirement;
-			OnXPPercentChangedSignature.Broadcast(DelLevelUpRequirement * 1.0f / LevelUpRequirement );
+			float value = static_cast<float>(DelLevelUpRequirement)  / static_cast<float>(LevelUpRequirement);
+			UE_LOG(LogTemp, Warning, TEXT("LevelUpRequirement:%d,preLevelUpRequirement:%d,value:&f"), LevelUpRequirement, preLevelUpRequirement, value);
+			OnXPPercentChangedSignature.Broadcast(value);
 		}
 	}
 

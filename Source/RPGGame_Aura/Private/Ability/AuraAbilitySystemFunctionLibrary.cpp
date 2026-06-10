@@ -86,12 +86,12 @@ void UAuraAbilitySystemFunctionLibrary::GiveStartupAbilities(const UObject* Worl
 	}
 
 	const FCharacterClassDefaultInfo DefaultInfo=CharacterClassInfo->GetInfoWithECharacterClass(CharacterClass);
-	ICombatInterface* CombatInterface = Cast<ICombatInterface>(ASC->GetAvatarActor());
-	if (CombatInterface)
+
+	for (TSubclassOf<UGameplayAbility> AbilityClass : DefaultInfo.StartupAbilities)
 	{
-		for (TSubclassOf<UGameplayAbility> AbilityClass : DefaultInfo.StartupAbilities)
+		if (ASC->GetAvatarActor()->Implements<UCombatInterface>())
 		{
-			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, CombatInterface->GetPlayerLevel());
+			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, ICombatInterface::Execute_GetPlayerLevel(ASC->GetAvatarActor()));
 			ASC->GiveAbility(AbilitySpec);
 		}
 	}
@@ -148,7 +148,7 @@ void UAuraAbilitySystemFunctionLibrary::SetIsCriticalHit(FGameplayEffectContextH
 		AuraEffectContext->SetIsCriticalHit(bInIsCriticalHit);
 	}
 }
-//��Χ�ڵ�actor
+
 void UAuraAbilitySystemFunctionLibrary::GetLivePlayersWithinRadius(const UObject* WorldObjectContext, TArray<AActor*>& OutOverlappingActors, TArray<AActor*> ActorsToIgnore, float Radius, const FVector& SphereOrigin)
 {
 	FCollisionQueryParams SphereParams;
@@ -162,7 +162,7 @@ void UAuraAbilitySystemFunctionLibrary::GetLivePlayersWithinRadius(const UObject
 
 		for (FOverlapResult & Overlap : Overlaps)
 		{
-			//�ж��Ƿ����IcombatInterface��Actor�Ƿ�����
+			//�ж��IcombatInterface��Actor�Ƿ�����
 			if (Overlap.GetActor()->Implements<UCombatInterface>() && !ICombatInterface::Execute_bIsDead(Overlap.GetActor()))
 			{
 				OutOverlappingActors.AddUnique(ICombatInterface::Execute_GetAvator(Overlap.GetActor()));
@@ -174,6 +174,8 @@ void UAuraAbilitySystemFunctionLibrary::GetLivePlayersWithinRadius(const UObject
 
 bool UAuraAbilitySystemFunctionLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondActor)
 {
+	if (FirstActor == nullptr || SecondActor == nullptr)
+		return false;
 	const bool FirstIsPlayer = FirstActor->ActorHasTag(FName("Player"));
 	const bool SecondIsPlayer = SecondActor->ActorHasTag(FName("Player"));
 

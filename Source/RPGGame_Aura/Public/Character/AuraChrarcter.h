@@ -4,23 +4,27 @@
 
 #include "CoreMinimal.h"
 #include "Character/AuraCharacterBase.h"
+#include "Interaction/PlayerInterface.h"
 #include "AuraChrarcter.generated.h"
 
 
 
-
+class UNiagaraComponent;
+class UCameraComponent;
+class USpringArmComponent;
 /**
  * 
  */
 UCLASS()
-class RPGGAME_AURA_API AAuraChrarcter : public AAuraCharacterBase
+class RPGGAME_AURA_API AAuraChrarcter : public AAuraCharacterBase,public IPlayerInterface
 {
 	GENERATED_BODY()
 public:
 
 	AAuraChrarcter();
 
-
+	UPROPERTY(EditAnywhere,BlueprintReadOnly)
+	TObjectPtr<UNiagaraComponent>LevelUpNiagaraComponent;
 
 	virtual void PossessedBy(AController* NewController)override;
 	virtual void OnRep_PlayerState()override;
@@ -28,14 +32,36 @@ public:
 
 	//Combat Interface
 
-	virtual int32 GetPlayerLevel()override;
+	virtual int32 GetPlayerLevel_Implementation()override;
 
-	
+	//Player Interface 
+	virtual void AddToXP_Implementation(int32 XP)override;
+	virtual void LevelUp_Implementation()override;
+	virtual int32 GetXP_Implementation()override;
+	virtual int32 FindLevelForXP_Implementation(int32 XP)const override;
+
+	virtual int32 GetAttributePointsReward_Implementation(int32 Level) const override;
+
+	virtual	int32 GetSpellPointsReward_Implementation(int32 Level)const override;
+
+	virtual void AddToAttributePoints_Implementation(int32 InAttributePoints)override;
+
+	virtual void AddToSpellPoints_Implementation(int32 InSPellPoints)override;
+
+	virtual void AddToPlayerLevel_Implementation(int32 InPlayerLevel)override;
+
 private:
 	
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UCameraComponent>CameraComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USpringArmComponent>SpringArmComponent;
+
 
 	virtual void InitAbilityActorInfo()override;
 
-
+	UFUNCTION(NetMulticast,Reliable)
+	void MulticastLevelUpParticles()const;
 	
 };
