@@ -5,7 +5,11 @@
 #include "Ability/AuraAttributeSet.h"
 #include "AuraGameplayTags.h"
 #include "Ability/Data/AttributeInfo.h"
+#include "Player/AuraPlayerState.h"
+#include "Ability/AuraAbilitySystemComponent.h"
 
+
+//广播初始值
 void UAttributeMenyWidgetController::BroadcastInitialValues()
 {
 	UAuraAttributeSet* AS = CastChecked<UAuraAttributeSet>(AttributeSet);
@@ -32,6 +36,8 @@ void UAttributeMenyWidgetController::BroadcastInitialValues()
 		}
 	}
 
+	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
+	OnAttributePointsChanged.Broadcast(AuraPlayerState->GetAttributePoints());
 }
 void UAttributeMenyWidgetController::BindCallbacksToDependencies()
 {
@@ -51,7 +57,18 @@ void UAttributeMenyWidgetController::BindCallbacksToDependencies()
 		);
 	}
 
+	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
+	AuraPlayerState->OnAttributePointsChangedDelegate.AddLambda(
+		[this](int NewValue) {
+			OnAttributePointsChanged.Broadcast(NewValue);
+		}
+	);
+}
 
+void UAttributeMenyWidgetController::UpgradeAttribute(const FGameplayTag& GameplayTag)
+{
+	UAuraAbilitySystemComponent* AuraASC = CastChecked<UAuraAbilitySystemComponent>(AbilitySystemComponent);
+	AuraASC->UpgradeAttribute(GameplayTag);
 }
 
 void UAttributeMenyWidgetController::BroadcastAttributeInfo(const FGameplayTag& AttributeTag,const FGameplayAttribute& Attribute)const

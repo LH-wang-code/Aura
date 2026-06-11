@@ -57,6 +57,20 @@ void AAuraChrarcter::OnRep_PlayerState()
 }
 
 
+int32 AAuraChrarcter::GetSpellPoints_Implementation()
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->GetSpellPoints();
+}
+
+int32 AAuraChrarcter::GetAttributePoints_Implementation()
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->GetAttributePoints();
+}
+
 int32 AAuraChrarcter::FindLevelForXP_Implementation(int32 XP)const 
 {
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
@@ -81,11 +95,18 @@ int32 AAuraChrarcter::GetSpellPointsReward_Implementation(int32 Level) const
 void AAuraChrarcter::AddToAttributePoints_Implementation(int32 InAttributePoints)
 {
 	//TODO
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	AuraPlayerState-> AddToAttributePoints(InAttributePoints);
+
 }
 
 void AAuraChrarcter::AddToSpellPoints_Implementation(int32 InSPellPoints)
 {
 	//TODO
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	AuraPlayerState->AddToSpellPoints(InSPellPoints);
 }
 
 void AAuraChrarcter::AddToPlayerLevel_Implementation(int32 InPlayerLevel)

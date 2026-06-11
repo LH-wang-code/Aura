@@ -49,6 +49,8 @@ public:
 	virtual void AddToSpellPoints_Implementation(int32 InSPellPoints)override;
 
 	virtual void AddToPlayerLevel_Implementation(int32 InPlayerLevel)override;
+	virtual int32 GetAttributePoints_Implementation()override;
+	virtual int32 GetSpellPoints_Implementation()override;
 
 private:
 	

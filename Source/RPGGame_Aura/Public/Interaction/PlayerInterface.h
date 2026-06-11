@@ -51,4 +51,11 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent)
 	void AddToPlayerLevel(int32 InPlayerLevel);
+
+
+	UFUNCTION(BlueprintNativeEvent)
+	int32 GetAttributePoints();
+
+	UFUNCTION(BlueprintNativeEvent)
+	int32 GetSpellPoints();
 };

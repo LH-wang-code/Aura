@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "Delegates/DelegateCombinations.h"
 
 //#include "AbilitySystemComponent.h"
 //#include "AttributeSet.h"
@@ -12,7 +13,7 @@
 
 
 class UAbilitySystemComponent;
-class UAttributeSet;
+class UAttributeSet; 
 
 
 USTRUCT(BlueprintType)
@@ -37,7 +38,7 @@ struct FWidgetControllerParams
 	TObjectPtr<UAttributeSet>AttributeSet=nullptr;
 
 };
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerStateChangedSignature, int32, NewValue);
 /**
  * 
  */

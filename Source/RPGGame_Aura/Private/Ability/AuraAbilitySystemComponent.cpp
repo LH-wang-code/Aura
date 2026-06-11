@@ -4,6 +4,8 @@
 #include "Ability/AuraAbilitySystemComponent.h"
 #include "AuraGameplayTags.h"
 #include "Ability/Abilities/AuraGameplayAbility.h"
+#include "Interaction/PlayerInterface.h"
+#include <../../../../../../../Plugins/Runtime/GameplayAbilities/Source/GameplayAbilities/Public/AbilitySystemBlueprintLibrary.h>
 //当AbilitySystemComponent的Actor信息设置完成时调用该函数
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 {
@@ -126,4 +128,30 @@ FGameplayTag UAuraAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbi
 		}
 	}
 	return FGameplayTag();
+}
+
+void UAuraAbilitySystemComponent::UpgradeAttribute(const FGameplayTag& GameplayTag)
+{
+	if (GetAvatarActor()->Implements<UPlayerInterface>())
+	{
+		if (IPlayerInterface::Execute_GetAttributePoints(GetAvatarActor())>0)
+		{
+			ServerUpgradeAttribute(GameplayTag);
+		}
+	}
+}
+
+void UAuraAbilitySystemComponent::ServerUpgradeAttribute_Implementation(const FGameplayTag& GameplayTag)
+{
+	FGameplayEventData Payload;
+	Payload.EventTag = GameplayTag;
+	Payload.EventMagnitude = 1.f;
+
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetAvatarActor(), GameplayTag, Payload);
+
+
+	if (GetAvatarActor()->Implements<UPlayerInterface>())
+	{
+		IPlayerInterface::Execute_AddToAttributePoints(GetAvatarActor(), -1);
+	}
 }
