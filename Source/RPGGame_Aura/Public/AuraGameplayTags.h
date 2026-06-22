@@ -75,6 +75,7 @@ public:
 	FGameplayTag Abilities_Fire_FireBolt;
 	FGameplayTag Cooldown_Fire_FireBolt;
 
+	FGameplayTag Abilities_Poision;
 
 	
 
