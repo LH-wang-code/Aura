@@ -8,6 +8,7 @@
 #include "UI/WidgetController/OverlayAuraWidgetController.h"
 #include "AbilitySystemComponent.h"
 #include "AttributeSet.h"
+#include "UI/WidgetController/SpellMenuWidgetController.h"
 UOverlayAuraWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetControllerParams& WCParams)
 {
 	//确保只创建一次OverlayAuraWidgetController
@@ -34,6 +35,17 @@ UAttributeMenyWidgetController* AAuraHUD::GetAttributeMenuWidgetController(const
 		AttributeMenuWidgetController->BindCallbacksToDependencies();
 	}
 	return AttributeMenuWidgetController;
+}
+
+USpellMenuWidgetController* AAuraHUD::GetSpellMenuWidgetController(const FWidgetControllerParams& WCParams)
+{
+	if (SpellMenuWidgetController == nullptr)
+	{
+		SpellMenuWidgetController = NewObject<USpellMenuWidgetController>(this, SpellMenuWidgetControllerClass);
+		SpellMenuWidgetController->SetWidgetControllerParams(WCParams);
+		SpellMenuWidgetController->BindCallbacksToDependencies();
+	}
+	return SpellMenuWidgetController;
 }
 
 //这个方法用于创建UI和Controller，调用GetOverlayWidgetController绑定数据，将ui添加到屏幕上

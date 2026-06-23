@@ -36,8 +36,7 @@ void UAttributeMenyWidgetController::BroadcastInitialValues()
 		}
 	}
 
-	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
-	OnAttributePointsChanged.Broadcast(AuraPlayerState->GetAttributePoints());
+	OnAttributePointsChanged.Broadcast(GetPS()->GetAttributePoints());
 }
 void UAttributeMenyWidgetController::BindCallbacksToDependencies()
 {
@@ -57,8 +56,7 @@ void UAttributeMenyWidgetController::BindCallbacksToDependencies()
 		);
 	}
 
-	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
-	AuraPlayerState->OnAttributePointsChangedDelegate.AddLambda(
+	GetPS()->OnAttributePointsChangedDelegate.AddLambda(
 		[this](int NewValue) {
 			OnAttributePointsChanged.Broadcast(NewValue);
 		}

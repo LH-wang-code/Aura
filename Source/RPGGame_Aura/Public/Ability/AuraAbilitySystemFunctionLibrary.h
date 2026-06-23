@@ -19,11 +19,18 @@ class RPGGAME_AURA_API UAuraAbilitySystemFunctionLibrary : public UBlueprintFunc
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintPure,Category="AuraAbilitySystemLibrary| WidgetController")
-	static UOverlayAuraWidgetController* GetOverlayWidgetController(const UObject* WorldContextObject);
 
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary| WidgetController")
+	static bool MakeWidgetControllerParams(const UObject* WorldContextObject,FWidgetControllerParams&OutWCParams,AAuraHUD*& OutAuraHUD);
+	UFUNCTION(BlueprintPure,Category="AuraAbilitySystemLibrary| WidgetController",meta=(DefaultToSelf="WorldContextObject"))
+	static UOverlayAuraWidgetController* GetOverlayWidgetController(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary| WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
 	static UAttributeMenyWidgetController* GetAttributeMenuWidgetController(const UObject* WorldContextObject);
+
+
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary| WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
+	static USpellMenuWidgetController* GetSpellMenuWidgetController(const UObject* WorldContextObject);
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary| CharacterClassInfo")
 	static void InitializeDefaultCharacterClassInfo(const UObject* WorldContextObject,ECharacterClass CharacterClass, float level,UAbilitySystemComponent* ASC);

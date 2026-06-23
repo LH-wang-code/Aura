@@ -36,7 +36,6 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float,
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature,const FAuraAbilityInfo&,Info);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnXPPercentChangedSignature, float, NewValue);
 
@@ -69,8 +68,7 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
 	FMessageWidgetRowSignature MessageWidgetRowDelegate;
 
-	UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
-	FAbilityInfoSignature AbilityInfoSignature;
+
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
 	FOnXPPercentChangedSignature OnXPPercentChangedSignature;
@@ -82,8 +80,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Widget Data")
 	TObjectPtr<UDataTable>MessageWidgetDataTable;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget Data")
-	TObjectPtr<UAbilityInfo>AbilityInfo;
+
 
 	void HealthChanged(const FOnAttributeChangeData& Data)const;
 	void MaxHealthChanged(const FOnAttributeChangeData& Data)const;
@@ -97,8 +94,8 @@ protected:
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
 
 
-	void OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraASC);
-	static void ProcessAbilityStatic(const FGameplayAbilitySpec& AbilitySpec, UOverlayAuraWidgetController* Controller, UAuraAbilitySystemComponent* AuraASC);
+	//void OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraASC);
+	//static void ProcessAbilityStatic(const FGameplayAbilitySpec& AbilitySpec, UOverlayAuraWidgetController* Controller, UAuraAbilitySystemComponent* AuraASC);
 };
 
 
