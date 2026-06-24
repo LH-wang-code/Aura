@@ -10,7 +10,7 @@
 /**
  * 存取UI部分的能力信息
  */
-
+class UGameplayAbility;
 
 USTRUCT(BlueprintType)
 struct FAuraAbilityInfo 
@@ -22,6 +22,10 @@ struct FAuraAbilityInfo
 
 	UPROPERTY(BlueprintReadOnly)
 	FGameplayTag InputTag=FGameplayTag();
+	UPROPERTY(BlueprintReadOnly)
+
+	FGameplayTag StatusTag = FGameplayTag();
+
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FGameplayTag InCooldownTag=FGameplayTag();
@@ -33,6 +37,12 @@ struct FAuraAbilityInfo
 	TObjectPtr<const UMaterialInterface>BackgroundMaterial=nullptr;
 
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	int32 LevelRequirement=1;
+
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UGameplayAbility>Ability;
 };
 UCLASS()
 class RPGGAME_AURA_API UAbilityInfo : public UDataAsset
