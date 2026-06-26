@@ -43,6 +43,10 @@ struct FAuraAbilityInfo
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UGameplayAbility>Ability;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+
+	FGameplayTag AbilityType = FGameplayTag();
+
 };
 UCLASS()
 class RPGGAME_AURA_API UAbilityInfo : public UDataAsset

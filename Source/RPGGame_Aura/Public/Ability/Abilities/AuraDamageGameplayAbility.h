@@ -30,4 +30,7 @@ public:
 	UFUNCTION(BlueprintPure)
 	FTaggedMontageInfo GetRandomMontageFromInfoArray(const TArray<FTaggedMontageInfo>& MontageInfoArray);
 
+
+
+	float GetDamageByDamageType(int32 Level,const FGameplayTag& DamageType);
 };

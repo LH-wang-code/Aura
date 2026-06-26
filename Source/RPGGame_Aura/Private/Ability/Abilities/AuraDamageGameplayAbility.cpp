@@ -6,6 +6,7 @@
 #include "Abilities/GameplayAbility.h"
 #include "AbilitySystemComponent.h"
 #include "Interaction/CombatInterface.h"
+#include "AuraGameplayTags.h"
 void UAuraDamageGameplayAbility::CauseDamage(AActor* TargetActor)
 {
 	FGameplayEffectSpecHandle DamageSpecHandle = MakeOutgoingGameplayEffectSpec(DamageEffectClass, 1.f);
@@ -27,5 +28,10 @@ FTaggedMontageInfo UAuraDamageGameplayAbility::GetRandomMontageFromInfoArray(con
 	}
 	FTaggedMontageInfo MontageInfo = MontageInfoArray[FMath::RandRange(0, MontageInfoArray.Num() - 1)];
 	return MontageInfo;
+}
+
+float UAuraDamageGameplayAbility::GetDamageByDamageType(int32 Level, const FGameplayTag& DamageType)
+{
+	return  DamageTypes[DamageType].GetValueAtLevel(Level);
 }
 

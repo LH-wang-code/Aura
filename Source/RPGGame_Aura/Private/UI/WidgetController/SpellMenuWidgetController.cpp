@@ -8,9 +8,16 @@
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "Player/AuraPlayerState.h"
 #include "AuraGameplayTags.h"
-FSelectedAbility SelectedAbility = { FAuraGameplayTags::Get().Abilities_None,FAuraGameplayTags::Get().Abilities_Status_Locked };
+
 void USpellMenuWidgetController::BroadcastInitialValues()
 {
+	if (SelectedAbility.Ability.IsValid() == false)
+	{
+		const auto& Tags = FAuraGameplayTags::Get();
+		SelectedAbility.Ability = Tags.Abilities_None;
+		SelectedAbility.Status = Tags.Abilities_Status_Locked;
+	}
+
 	BroadcastAbilityInfo();
 	OnSpellPointsChangedDelegate.Broadcast(GetPS()->GetSpellPoints());
 }
@@ -32,7 +39,11 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 
 
 				ShouldEnableButtons(StatusTag, CurrentSpellPoints, bEnableSpendPoints, bEnableEquip);
-				SpellGlobeSelectedDelegate.Broadcast(bEnableSpendPoints, bEnableEquip);
+				FString Description;
+				FString NextDescription;
+
+				GetAuraASC()->GetDescriptionByAbilityTag(AbilityTag, Description, NextDescription);
+				SpellGlobeSelectedDelegate.Broadcast(bEnableSpendPoints, bEnableEquip,Description,NextDescription);
 			}
 
 			if (AbilityInfo)
@@ -52,10 +63,12 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 
 			bool bEnableSpendPoints = false;
 			bool bEnableEquip = false;
-
-
 			ShouldEnableButtons(SelectedAbility.Status, CurrentSpellPoints, bEnableSpendPoints, bEnableEquip);
-			SpellGlobeSelectedDelegate.Broadcast(bEnableSpendPoints, bEnableEquip);
+			FString Description;
+			FString NextDescription;
+
+			GetAuraASC()->GetDescriptionByAbilityTag(SelectedAbility.Ability, Description, NextDescription);
+			SpellGlobeSelectedDelegate.Broadcast(bEnableSpendPoints, bEnableEquip, Description, NextDescription);
 		}
 
 	);
@@ -63,6 +76,14 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 
 void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityTag)
 {
+
+
+	if (bWaitingForEquipping)
+	{
+		FGameplayTag SelectedAbiityType = AbilityInfo->FindAbilityInfoForTag(SelectedAbility.Ability).AbilityType;
+		StopWaitForEquipDelegate.Broadcast(SelectedAbiityType);
+	}
+
 	const int32 SpellPoints=GetPS()->GetSpellPoints();
 	FGameplayTag AbilityStatus;
 
@@ -86,10 +107,30 @@ void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityT
 
 	bool bEnableSpendPoints = false;
 	bool bEnableEquip = false;
+	ShouldEnableButtons(AbilityStatus, CurrentSpellPoints, bEnableSpendPoints, bEnableEquip);
+
+	FString Description;
+	FString NextDescription;
+	GetAuraASC()->GetDescriptionByAbilityTag(AbilityTag, Description, NextDescription);
+	SpellGlobeSelectedDelegate.Broadcast(bEnableSpendPoints, bEnableEquip, Description, NextDescription);
+}
+
+void USpellMenuWidgetController::SpellGlobeDeSelected()
+{
+
+	if (bWaitingForEquipping)
+	{
+		FGameplayTag SelectedAbiityType = AbilityInfo->FindAbilityInfoForTag(SelectedAbility.Ability).AbilityType;
+		StopWaitForEquipDelegate.Broadcast(SelectedAbiityType);
+		bWaitingForEquipping = false;
+	}
 
 
-	ShouldEnableButtons(AbilityStatus, SpellPoints, bEnableSpendPoints, bEnableEquip);
-	SpellGlobeSelectedDelegate.Broadcast(bEnableSpendPoints, bEnableEquip);
+	//制成默认值
+	SelectedAbility.Ability = FAuraGameplayTags::Get().Abilities_None;
+	SelectedAbility.Status = FAuraGameplayTags::Get().Abilities_Status_Locked;
+	SpellGlobeSelectedDelegate.Broadcast(false, false, FString(), FString());
+
 }
 
 void USpellMenuWidgetController::SpendPointButtonPressed()
@@ -98,6 +139,13 @@ void USpellMenuWidgetController::SpendPointButtonPressed()
 	{
 		GetAuraASC()->ServeSpendSpellPoint(SelectedAbility.Ability);
 	}
+}
+
+void USpellMenuWidgetController::EquipButtonPressed()
+{
+	const FGameplayTag AbilityType= AbilityInfo->FindAbilityInfoForTag(SelectedAbility.Ability).AbilityType;
+	WaitForEquipDelegate.Broadcast(AbilityType);
+	bWaitingForEquipping = true;
 }
 
 void USpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& AbilityStatus, int32 SpellPoints, bool& bShouldEnableSpellPointButton, bool& bShouldEnableEquipButton)

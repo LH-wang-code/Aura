@@ -6,7 +6,8 @@
 #include "UI/WidgetController/AuraWidgetController.h"
 #include <../../../../../../../Source/Runtime/GameplayTags/Classes/GameplayTagContainer.h>
 #include "SpellMenuWidgetController.generated.h"
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FSpellGlobeSelectedSignature, bool, bSpendPointsButtonEnabled, bool, bEquipButtonEnabled);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FSpellGlobeSelectedSignature, bool, bSpendPointsButtonEnabled, bool, bEquipButtonEnabled,FString,Description,FString,NextDescription);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWaitForEquipSelectionSignature, const FGameplayTag&, AbilityTag);
 /**
  * 
  */
@@ -21,6 +22,8 @@ class RPGGAME_AURA_API USpellMenuWidgetController : public UAuraWidgetController
 {
 	GENERATED_BODY()
 public:
+
+	FSelectedAbility SelectedAbility;
 	virtual void BroadcastInitialValues()override;
 	virtual void BindCallbacksToDependencies()override;
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Spell")
@@ -28,15 +31,31 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FSpellGlobeSelectedSignature SpellGlobeSelectedDelegate;
+	UPROPERTY(BlueprintAssignable)
+
+	FWaitForEquipSelectionSignature WaitForEquipDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+
+	FWaitForEquipSelectionSignature StopWaitForEquipDelegate;
+
 
 	UFUNCTION(BlueprintCallable)
 	void SpellGlobeSelected(const FGameplayTag& AbilityTag);
 
 	UFUNCTION(BlueprintCallable)
+	void SpellGlobeDeSelected();
+
+	UFUNCTION(BlueprintCallable)
 	void SpendPointButtonPressed();
+	UFUNCTION(BlueprintCallable)
+
+	void EquipButtonPressed();
 private:
 	static void ShouldEnableButtons(const FGameplayTag& AbilityStatus, int32 SpellPoints, bool& bShouldEnableSpellPointButton, bool& bShouldEnableEquipButton);
 
 	int32 CurrentSpellPoints = 0;
 
+
+	bool bWaitingForEquipping=false;
 };
