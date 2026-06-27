@@ -6,7 +6,8 @@
 #include "AuraGameplayTags.h"
 FString UAuraFireBolts::GetDescription(int32 Level)
 {
-	const int32 Damage = GetDamageByDamageType(Level,FAuraGameplayTags::Get().Damage_Fire);
+	const int32 ScalaDamage = Damage.GetValueAtLevel(Level);
+
 	const float ManaCost = GetManaCost(Level);
 	const float cooldown = GetCooldown(Level);
 	if (Level == 1)
@@ -18,18 +19,18 @@ FString UAuraFireBolts::GetDescription(int32 Level)
 
 			"<Defauta>launches a bolt of fine, exploding on impact and depling: </>"
 			"<Damage>< / ><Damage>Fire Damage with a chance to burn< / >"
-		""), Level, ManaCost ,cooldown,Damage );
+		""), Level, ManaCost ,cooldown, ScalaDamage);
 	}
 	else
 	{
-		return FString::Printf(TEXT("<Title>FIRE BOLT</>\n<Defauta>launches %d bolt of fine, exploding on impact and depling: </><Damage></><Damage>Fire Damage with a chance to burn</>\n\n<Small>Level:</><Level>%d</>"), FMath::Min(Level, NumProjectiles), Damage, Level);
+		return FString::Printf(TEXT("<Title>FIRE BOLT</>\n<Defauta>launches %d bolt of fine, exploding on impact and depling: </><Damage></><Damage>Fire Damage with a chance to burn</>\n\n<Small>Level:</><Level>%d</>"), FMath::Min(Level, NumProjectiles), ScalaDamage, Level);
 
 	}
 }
 
 FString UAuraFireBolts::GetNextLevelDescription(int32 Level)
 {
-	const int32 Damage = DamageTypes[FAuraGameplayTags::Get().Damage_Fire].GetValueAtLevel(Level + 1);
+	const int32 ScalaDamage = Damage.GetValueAtLevel(Level);
 	const float ManaCost = GetManaCost(Level+1);
 	const float cooldown = GetCooldown(Level+1);
 	return FString::Printf(TEXT("<Title>FIRE BOLT</>\n"
@@ -39,5 +40,5 @@ FString UAuraFireBolts::GetNextLevelDescription(int32 Level)
 
 		"<Defauta>launches a bolt of fine, exploding on impact and depling: </>"
 		"<Damage>< / ><Damage>Fire Damage with a chance to burn< / >"
-		""), Level+1, ManaCost, cooldown, Damage);
+		""), Level+1, ManaCost, cooldown, ScalaDamage);
 }

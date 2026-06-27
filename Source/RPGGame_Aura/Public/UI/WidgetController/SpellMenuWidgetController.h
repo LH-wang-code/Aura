@@ -8,6 +8,10 @@
 #include "SpellMenuWidgetController.generated.h"
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FSpellGlobeSelectedSignature, bool, bSpendPointsButtonEnabled, bool, bEquipButtonEnabled,FString,Description,FString,NextDescription);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWaitForEquipSelectionSignature, const FGameplayTag&, AbilityTag);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSpellGlobeReassigned, const FGameplayTag&, AbilityTag);
+
+
 /**
  * 
  */
@@ -38,8 +42,9 @@ public:
 	UPROPERTY(BlueprintAssignable)
 
 	FWaitForEquipSelectionSignature StopWaitForEquipDelegate;
+	UPROPERTY(BlueprintAssignable)
 
-
+	FSpellGlobeReassigned SpellGlbeReassignedDelegate;
 	UFUNCTION(BlueprintCallable)
 	void SpellGlobeSelected(const FGameplayTag& AbilityTag);
 
@@ -51,6 +56,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 
 	void EquipButtonPressed();
+
+	UFUNCTION(BlueprintCallable)
+
+	void SpellRowGlobePressed(const FGameplayTag& SlotTag, const FGameplayTag& AbilityType);
+
+
+	void OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PrevSlot);
+
 private:
 	static void ShouldEnableButtons(const FGameplayTag& AbilityStatus, int32 SpellPoints, bool& bShouldEnableSpellPointButton, bool& bShouldEnableEquipButton);
 
@@ -58,4 +71,9 @@ private:
 
 
 	bool bWaitingForEquipping=false;
+
+
+	//当前装备的法术所在插槽
+	FGameplayTag SelectedSlot;
+
 };

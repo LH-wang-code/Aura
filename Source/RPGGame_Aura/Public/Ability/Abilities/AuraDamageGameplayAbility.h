@@ -22,6 +22,22 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	TMap<FGameplayTag, FScalableFloat>DamageTypes;
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	FGameplayTag DamageType;
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	FScalableFloat Damage;
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+
+	float DebuffChance = 20.f;
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+
+	float DebuffDamage = 5.f;
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+
+	float DebuffFrequency = 1.f;
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+
+	float DebuffDuration = 5.f;
 
 public:
 	UFUNCTION(BlueprintCallable)
@@ -30,7 +46,4 @@ public:
 	UFUNCTION(BlueprintPure)
 	FTaggedMontageInfo GetRandomMontageFromInfoArray(const TArray<FTaggedMontageInfo>& MontageInfoArray);
 
-
-
-	float GetDamageByDamageType(int32 Level,const FGameplayTag& DamageType);
 };
