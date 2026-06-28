@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Ability/Abilities/AuraGameplayAbility.h"
+#include "AuraAbilityTypes.h"
 #include "AuraDamageGameplayAbility.generated.h"
 
 /**
@@ -45,5 +46,7 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	FTaggedMontageInfo GetRandomMontageFromInfoArray(const TArray<FTaggedMontageInfo>& MontageInfoArray);
+
+	FDamageEffectParams MakeDamageEffectParamsFromClass(AActor* TargetActor=nullptr);
 
 };

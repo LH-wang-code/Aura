@@ -20,6 +20,7 @@ class UMaterialInstance;
 class UMaterialInstanceDynamic;
 class UNiagaraSystem;
 struct FTaggedMontageInfo;
+class UDebuffNiagaraComponent;
 UCLASS(Abstract)
 class RPGGAME_AURA_API AAuraCharacterBase : public ACharacter,public IAbilitySystemInterface,public ICombatInterface
 {
@@ -54,6 +55,17 @@ public:
 	void WeaponStartupTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
 
 	int32 MinionCount;
+
+
+	FOnASCRegistered OnASCRegistered;
+
+	FOnDeath OnDeath;
+
+	virtual FOnASCRegistered GetOnASCRegisteredDelegate()override;
+	virtual FOnDeath GetOnDeathDelegate()override;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UDebuffNiagaraComponent>BurnDebuffComponent;
 protected:
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;

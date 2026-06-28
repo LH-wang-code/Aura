@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Ability/Data/CharacterClassInfo.h" 
+#include "AuraAbilityTypes.h"
 #include "AuraAbilitySystemFunctionLibrary.generated.h"
  
 class UGameplayStatics;
@@ -52,15 +53,42 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySysteomLibrary | GameplayEffects")
 	static bool IsCriticalHit(FGameplayEffectContextHandle& GameplayEffectContextHandle);
+	
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySysteomLibrary | GameplayEffects")
+	static bool IsSuccessfulDebuff(FGameplayEffectContextHandle& GameplayEffectContextHandle);
+
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySysteomLibrary | GameplayEffects")
+	static float GetDebuffDamage(FGameplayEffectContextHandle& GameplayEffectContextHandle);
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySysteomLibrary | GameplayEffects")
+	static float GetDebuffDuration(FGameplayEffectContextHandle& GameplayEffectContextHandle);
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySysteomLibrary | GameplayEffects")
+	static float GetDebuffFrequency(FGameplayEffectContextHandle& GameplayEffectContextHandle);
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySysteomLibrary | GameplayEffects")
+
+	static FGameplayTag GetDamageType(FGameplayEffectContextHandle& GameplayEffectContextHandle);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySysteomLibrary | GameplayEffects")
+	static void SetIsBlockedHit(UPARAM(ref)FGameplayEffectContextHandle& GameplayEffectContextHandle, bool bInIsBlockedHit);
 
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySysteomLibrary | GameplayEffects")
-	static void SetIsBlockedHit(FGameplayEffectContextHandle& GameplayEffectContextHandle, bool bInIsBlockedHit);
-
-
+	static void SetIsCriticalHit(UPARAM(ref)FGameplayEffectContextHandle& GameplayEffectContextHandle, bool bInIsCriticalHit);
+	
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySysteomLibrary | GameplayEffects")
+	static void SetIsSuccessfulDebuff(UPARAM(ref)FGameplayEffectContextHandle& GameplayEffectContextHandle, bool bInIsSuccessfulDebuff);
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySysteomLibrary | GameplayEffects")
-	static void SetIsCriticalHit(FGameplayEffectContextHandle& GameplayEffectContextHandle, bool bInIsCriticalHit);
+	static void SetDebuffDamage(UPARAM(ref)FGameplayEffectContextHandle& GameplayEffectContextHandle, float InDebuffDamage);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySysteomLibrary | GameplayEffects")
+	static void SetDebuffDuration(UPARAM(ref)FGameplayEffectContextHandle& GameplayEffectContextHandle, float InDebuffDuration);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySysteomLibrary | GameplayEffects")
+	static void SetDebuffFrequency(UPARAM(ref)FGameplayEffectContextHandle& GameplayEffectContextHandle, float InDebuffFrequency);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySysteomLibrary | GameplayEffects")
+	static void SetDamageType(UPARAM(ref)FGameplayEffectContextHandle& GameplayEffectContextHandle, const FGameplayTag& InDamageType);
+
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySysteomLibrary | GameplayMachanics")
 	static void GetLivePlayersWithinRadius(const UObject* WorldObjectContext,TArray<AActor*>& OutOverlappingActors,TArray<AActor*> ActorsToIgnore,float Radius,const FVector& SphereOrigin);
@@ -70,4 +98,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySysteomLibrary | GameplayMachanics")
 	static int32 GetXPRewardForCharacterClassAndLevel(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 level);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySysteomLibrary | DamageEffect")
+	static FGameplayEffectContextHandle ApplyGameplayEffect(FDamageEffectParams Params);
+
 };
