@@ -44,7 +44,7 @@ public:
 
 	void HitReactTagChanged(const FGameplayTag CallbackTag,int32 NewCount);
 
-	virtual void Die()override;
+	virtual void Die(const FVector& DeathInpulse)override;
 	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
 	virtual AActor* GetCombatTarget_Implementation() const override;
 

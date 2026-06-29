@@ -13,6 +13,7 @@
 #include "Ability/AuraAbilitySystemFunctionLibrary.h"
 #include "Interaction/CombatInterface.h"
 #include "Interaction/PlayerInterface.h"
+#include <../../../../../../../Plugins/Runtime/GameplayAbilities/Source/GameplayAbilities/Public/GameplayEffectComponents/TargetTagsGameplayEffectComponent.h>
 UAuraAttributeSet::UAuraAttributeSet()
 {
 	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
@@ -171,7 +172,7 @@ void UAuraAttributeSet::HandleIncomingDamage(FEffectProperties& Props)
 			ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor);
 			if (CombatInterface)
 			{
-				CombatInterface->Die();
+				CombatInterface->Die(UAuraAbilitySystemFunctionLibrary::GetDeathImpulse(Props.EffectContextHandle));
 				//怪物死亡时，发送经验值
 				SendXPEvent(Props);
 			}
@@ -181,6 +182,13 @@ void UAuraAttributeSet::HandleIncomingDamage(FEffectProperties& Props)
 			FGameplayTagContainer TagContainer;
 			TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
 			Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+			const FVector& KnockbackForce = UAuraAbilitySystemFunctionLibrary::GetKnockbackForce(Props.EffectContextHandle);
+			if (!KnockbackForce.IsNearlyZero(1.f))
+			{
+				Props.TargetCharacter->LaunchCharacter(KnockbackForce, true, true);
+			}
+
+
 		}
 		const bool bBlockedHit = UAuraAbilitySystemFunctionLibrary::IsBlockedHit(Props.EffectContextHandle);
 		const bool bCriticalHit = UAuraAbilitySystemFunctionLibrary::IsCriticalHit(Props.EffectContextHandle);
@@ -259,7 +267,14 @@ void UAuraAttributeSet::HandleDebuff(FEffectProperties& Props)
 	Effect->Period = DebuffFrequency;
 	Effect->DurationMagnitude = FScalableFloat(DebuffDuration);
 
-	Effect->InheritableOwnedTagsContainer.AddTag(GameplayTags.DamageTypesToDebuffs[DamageType]);
+	//Effect->InheritableOwnedTagsContainer.AddTag(GameplayTags.DamageTypesToDebuffs[DamageType]);
+	//5.6添加标签的方式
+	UTargetTagsGameplayEffectComponent& TargetTagComp = Effect->AddComponent<UTargetTagsGameplayEffectComponent>();
+
+	FInheritedTagContainer TagContainer;
+	TagContainer.Added.AddTag(GameplayTags.DamageTypesToDebuffs[DamageType]);
+	TargetTagComp.SetAndApplyTargetTagChanges(TagContainer);
+
 
 	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
 	Effect->StackLimitCount = 1;

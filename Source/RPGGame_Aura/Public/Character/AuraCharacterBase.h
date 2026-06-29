@@ -35,14 +35,14 @@ public:
 
 
 	virtual UAnimMontage* GetHitReactMontage_Implementation()override;
-	virtual void Die() override;
+	virtual void Die(const FVector& DeathImpulse) override;
 
 	virtual bool bIsDead_Implementation()const override;
 	virtual AActor* GetAvator_Implementation() override;
 
 
 	UFUNCTION(NetMulticast,Reliable)
-	virtual void MulticastHandleDeath();
+	virtual void MulticastHandleDeath(const FVector& DeathImpulse);
 
 	
 

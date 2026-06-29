@@ -136,13 +136,22 @@ FGameplayEffectContextHandle UAuraAbilitySystemFunctionLibrary::ApplyGameplayEff
 	const AActor* SourceAvatarActor = Params.SourceAbilitySystemComponent->GetAvatarActor();
 	FGameplayEffectContextHandle EffectContextHandle=Params.SourceAbilitySystemComponent->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(SourceAvatarActor);
+	
+	SetDeathImpulse(EffectContextHandle, Params.DeathImpulse);
+	SetKnockbackForce(EffectContextHandle, Params.KnockbackForce);
+
 	FGameplayEffectSpecHandle SpecHandle=Params.SourceAbilitySystemComponent->MakeOutgoingSpec(Params.DamageGameplayEffectClass,Params.AbilityLevel,EffectContextHandle);
 	
+
+
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle,Params.DamageType,Params.BaseDamage);
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle,GameplayTags.Debuff_Chance,Params.DebuffChance);
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Debuff_Damage, Params.DebuffDamage);
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Debuff_Duration, Params.DebuffDuration);
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Debuff_Frequency, Params.DebuffFrequency);
+	
+	
+	
 	if (!SpecHandle.IsValid())
 	{
 		UE_LOG(LogTemp, Error, TEXT("SpecHandle Invalid!"));
@@ -150,6 +159,58 @@ FGameplayEffectContextHandle UAuraAbilitySystemFunctionLibrary::ApplyGameplayEff
 	}
 	Params.TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
 	return EffectContextHandle;
+}
+
+TArray<FRotator> UAuraAbilitySystemFunctionLibrary::EvenlySpacedRotators(const FVector& Forward, const FVector& Axis, float Spread, int32 NumsRotators)
+{
+
+	TArray<FRotator>Rotators;
+
+	const FVector LeftOfSpread = Forward.RotateAngleAxis(-Spread / 2.f, Axis);
+
+	if (NumsRotators > 1)
+	{
+		const float DeltaSpread = Spread / (NumsRotators - 1);
+
+		for (int32 i = 0; i < NumsRotators; i++)
+		{ 
+			const FVector Direction = LeftOfSpread.RotateAngleAxis(DeltaSpread * i, FVector::UpVector);
+
+			Rotators.Add(Direction.Rotation());
+
+		}
+	}
+	else
+	{
+		Rotators.Add(Forward.Rotation());
+	}
+	return Rotators;
+
+}
+
+TArray<FVector> UAuraAbilitySystemFunctionLibrary::EvenlyRotatedVectors(const FVector& Forward, const FVector& Axis, float Spread, int32 NumsVectors)
+{
+	TArray<FVector>Vectors;
+
+	const FVector LeftOfSpread = Forward.RotateAngleAxis(-Spread / 2.f, Axis);
+
+	if (NumsVectors > 1)
+	{
+		const float DeltaSpread = Spread / (NumsVectors - 1);
+
+		for (int32 i = 0; i < NumsVectors; i++)
+		{
+			const FVector Direction = LeftOfSpread.RotateAngleAxis(DeltaSpread * i, FVector::UpVector);
+
+			Vectors.Add(Direction);
+
+		}
+	}
+	else
+	{
+		Vectors.Add(Forward);
+	}
+	return Vectors;
 }
 
 //
@@ -235,6 +296,26 @@ FGameplayTag UAuraAbilitySystemFunctionLibrary::GetDamageType(FGameplayEffectCon
 	return FGameplayTag();
 }
 
+FVector UAuraAbilitySystemFunctionLibrary::GetDeathImpulse(FGameplayEffectContextHandle& GameplayEffectContextHandle)
+{
+	if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(GameplayEffectContextHandle.Get()))
+	{
+
+		return AuraEffectContext->GetDeathImpulse();
+	}
+	return FVector::ZeroVector;
+}
+
+FVector UAuraAbilitySystemFunctionLibrary::GetKnockbackForce(FGameplayEffectContextHandle& GameplayEffectContextHandle)
+{
+	if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(GameplayEffectContextHandle.Get()))
+	{
+
+		return AuraEffectContext->GetKnockbackForce();
+	}
+	return FVector::ZeroVector;
+}
+
 void UAuraAbilitySystemFunctionLibrary::SetIsBlockedHit(FGameplayEffectContextHandle& GameplayEffectContextHandle, bool bInIsBlockedHit)
 {
 	if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(GameplayEffectContextHandle.Get()))
@@ -289,6 +370,22 @@ void UAuraAbilitySystemFunctionLibrary::SetDamageType(FGameplayEffectContextHand
 	{
 		const TSharedPtr<FGameplayTag>DamageType = MakeShared<FGameplayTag>(InDamageType);
 		AuraEffectContext->SetDamageType(DamageType);
+	}
+}
+
+void UAuraAbilitySystemFunctionLibrary::SetDeathImpulse(FGameplayEffectContextHandle& GameplayEffectContextHandle, const FVector& InDeathImpulse)
+{
+	if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(GameplayEffectContextHandle.Get()))
+	{
+		AuraEffectContext->SetDeathImpulse(InDeathImpulse);
+	}
+}
+
+void UAuraAbilitySystemFunctionLibrary::SetKnockbackForce(FGameplayEffectContextHandle& GameplayEffectContextHandle, const FVector& InKnockbackForce)
+{
+	if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(GameplayEffectContextHandle.Get()))
+	{
+		AuraEffectContext->SetKnockbackForce(InKnockbackForce);
 	}
 }
 

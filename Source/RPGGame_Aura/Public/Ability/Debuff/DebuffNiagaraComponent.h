@@ -20,7 +20,7 @@ public:
 
 	UDebuffNiagaraComponent();
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(VisibleAnywhere)
 	FGameplayTag DebuffTag;
 
 

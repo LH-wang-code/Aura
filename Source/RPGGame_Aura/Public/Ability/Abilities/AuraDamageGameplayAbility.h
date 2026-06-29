@@ -40,12 +40,27 @@ protected:
 
 	float DebuffDuration = 5.f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	float DeathImpulseMagnitude = 1000.f;
+
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+
+	float KnockbacForceMagnitude = 1000.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+
+	float KnockbackChance = 0.f;
+
+
+
 public:
 	UFUNCTION(BlueprintCallable)
 	void CauseDamage(AActor* TargetActor);
 
 	UFUNCTION(BlueprintPure)
 	FTaggedMontageInfo GetRandomMontageFromInfoArray(const TArray<FTaggedMontageInfo>& MontageInfoArray);
+	UFUNCTION(BlueprintPure)
 
 	FDamageEffectParams MakeDamageEffectParamsFromClass(AActor* TargetActor=nullptr);
 

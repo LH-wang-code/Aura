@@ -17,12 +17,13 @@ void UDebuffNiagaraComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetOwner());
-
+	UE_LOG(LogTemp, Warning, TEXT("CombatInterface valid: %s"),
+		CombatInterface ? TEXT("YES") : TEXT("NO"));
 	UAbilitySystemComponent* ASC=UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwner());
 	if (ASC)
 	{
 		ASC->RegisterGameplayTagEvent(DebuffTag, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &UDebuffNiagaraComponent::DebuffTagChanged);
-
+		UE_LOG(LogTemp, Warning, TEXT("Bind ASC: %s"), *GetNameSafe(GetOwner()));
 	}
 	else if (CombatInterface)
 	{
@@ -40,7 +41,10 @@ void UDebuffNiagaraComponent::BeginPlay()
 
 void UDebuffNiagaraComponent::DebuffTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 {
-	if (NewCount > 0)
+	//UE_LOG(LogTemp, Log, TEXT("DebuffTagChanged´¥·¢£¡Tag:%s Count:%d"), *CallbackTag.ToString(), NewCount);
+	const bool bOwnerValid= IsValid(GetOwner());
+	const bool bOwnerAlive = GetOwner()->Implements<UCombatInterface>() && ICombatInterface::Execute_bIsDead(GetOwner());
+	if (bOwnerValid && bOwnerAlive&&NewCount > 0)
 	{
 		Activate();
 	}

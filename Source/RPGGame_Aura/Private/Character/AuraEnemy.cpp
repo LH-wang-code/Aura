@@ -138,12 +138,12 @@ void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallbackTag,int32 NewCoun
 	UE_LOG(LogTemp, Warning, TEXT("HitReactTagChanged!"));
 }
 
-void AAuraEnemy::Die()
+void AAuraEnemy::Die(const FVector& DeathInpulse)
 {
 	SetLifeSpan(LifeSpan);
 	if(AuraAIController) AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Dead"), true);
 
-	Super::Die();
+	Super::Die(DeathInpulse);
 }
 
 void AAuraEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)
