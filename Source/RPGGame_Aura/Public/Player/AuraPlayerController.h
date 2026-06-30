@@ -17,6 +17,7 @@ class UAuraAbilitySystemComponent;
 class USplineComponent;
 class UDamageTextComponent;
 class ACharacter;
+class UNiagaraSystem;
 /**
  * 
  */
@@ -45,6 +46,9 @@ private:
 	TObjectPtr<UInputAction>MoveAction;
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction>ShiftAction;
+
+
+
 
 
 	void ShiftPressed(){bShiftKeyDawn=true;}
@@ -83,6 +87,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<USplineComponent>Spline;
 
+	UPROPERTY(EditAnywhere)
+
+	TObjectPtr<UNiagaraSystem>ClickNiagaraSystem;
 	void AutoRun();
 
 	UPROPERTY(EditAnywhere)

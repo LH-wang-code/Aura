@@ -44,7 +44,8 @@ public:
 	UFUNCTION(NetMulticast,Reliable)
 	virtual void MulticastHandleDeath(const FVector& DeathImpulse);
 
-	
+	virtual USkeletalMeshComponent* GetWeapon_Implementation()override;
+
 
 	void Dissolve();
 

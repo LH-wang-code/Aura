@@ -19,12 +19,16 @@ class RPGGAME_AURA_API AAuraProjectile : public AActor
 public:	
 
 	AAuraProjectile();
+	UPROPERTY(EditAnywhere)
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovement;
 
 
 	UPROPERTY(BlueprintReadWrite,meta=(ExposeOnSpawn=true))
 
 	FDamageEffectParams DamageEffectParams;
+
+	UPROPERTY()
+	TObjectPtr<USceneComponent>HomingTargetSceneComponent;
 protected:
 	virtual void BeginPlay() override;
 

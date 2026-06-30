@@ -15,6 +15,7 @@
 #include "Logging/LogMacros.h"
 #include "GameFramework/Character.h"
 #include "UI/Widgets/DamageTextComponent.h"
+#include <../../../../../../../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraFunctionLibrary.h>
 AAuraPlayerController::AAuraPlayerController()
 {
 	bReplicates = true;
@@ -61,6 +62,21 @@ void AAuraPlayerController::ShowDamageText_Implementation(float DamageText,AChar
 
 void AAuraPlayerController::CursorTrace()
 {
+	if (GetASC()&&GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get().Player_Block_CursorTrace))
+	{
+		if (LastActor != nullptr)
+		{
+			LastActor->UnHighlightActor();
+
+		}
+		if (ThisActor != nullptr)
+		{
+			ThisActor->UnHighlightActor();
+		}
+		LastActor = nullptr;
+		ThisActor = nullptr;
+		return;
+	}
 	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
 	if (!CursorHit.bBlockingHit) return;
 
@@ -169,18 +185,31 @@ void AAuraPlayerController::SetupInputComponent()
 
 void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
+	if (GetASC() && GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get().Player_Block_InputPressed))
+	{
+		return;
+	}
+
+
+
 	//GEngine->AddOnScreenDebugMessage(1,3.f,FColor::Red,*InputTag.ToString());
 	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
 		bTargeting=ThisActor?true:false;
 		bAutoRunning=false;
 	}
+	if (GetASC()) GetASC()->AbilityInputTagPressed(InputTag);
 	
 
 }
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
+
+	if (GetASC() && GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get().Player_Block_InputReleased))
+	{
+		return;
+	}
 	//GEngine->AddOnScreenDebugMessage(2,3.f,FColor::Blue,*InputTag.ToString());
 	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
@@ -203,7 +232,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 					Spline->AddSplinePoint(PointLoc,ESplineCoordinateSpace::World);
 					DrawDebugSphere(GetWorld(), PointLoc,10.f,10.f,FColor::Green,false,5.f);
 					UE_LOG(LogTemp,Warning,TEXT("Spline Points"));
-				}
+				} 
 				if (NavPath->PathPoints.Num() > 0)
 				{
 					CachedDestination = NavPath->PathPoints.Last();
@@ -212,16 +241,25 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 
 				
 			} 
+			if (GetASC() &&! GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get().Player_Block_InputPressed))
+			{
+				UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
+			}
+
 		}
 		FollowTime=0.f;
 		bTargeting=false;
 	}
+	if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
 }
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
 	//GEngine->AddOnScreenDebugMessage(3,3.f,FColor::Green,*InputTag.ToString());
-
+	if (GetASC() && GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get().Player_Block_InputHeld))
+	{
+		return;
+	}
 	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
 		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);

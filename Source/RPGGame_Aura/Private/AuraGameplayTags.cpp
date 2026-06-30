@@ -179,4 +179,17 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	//Meta Attribute
 	GameplayTags.Attributes_Meta_InComingXP = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Meta.InComingXP"), FString("Attributes_Meta_InComingXP"));
+
+	
+
+
+	//PlayerBlock
+	GameplayTags.Player_Block_InputPressed = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Player.Block.InputPressed"), FString("Player.Block.InputPressed"));
+	GameplayTags.Player_Block_InputHeld = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Player.Block.InputHeld"), FString("Player.Block.InputHeld"));
+	GameplayTags.Player_Block_InputReleased = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Player.Block.InputReleased"), FString("Player.Block.InputReleased"));
+	GameplayTags.Player_Block_CursorTrace = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Player.Block.CursorTrace"), FString("Player.Block.CursorTrace"));
 }

@@ -30,6 +30,7 @@ public:
 	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
 	void AddCharacterPassiveAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupPassiveAbilities);
 
+	void AbilityInputTagPressed(const FGameplayTag& InputTag);
 
 	void AbilityInputTagHeld(const FGameplayTag& InputTag);
 	void AbilityInputTagReleased(const FGameplayTag& InputTag);
@@ -65,7 +66,8 @@ public:
 
 	bool AbilityHasSlot(FGameplayAbilitySpec* Spec, const FGameplayTag& Slot);
 
-
+	//virtual void AbilitySpecInputPressed(FGameplayAbilitySpec& Spec) override;
+	//virtual void AbilitySpecInputReleased(FGameplayAbilitySpec& Spec) override;
 
 protected:
 	UFUNCTION(Client,Reliable)

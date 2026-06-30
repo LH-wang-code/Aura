@@ -8,6 +8,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h>
 #include "Ability/AuraAbilitySystemFunctionLibrary.h"
 #include "Actor/AuraProjectile.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 FString UAuraFireBolts::GetDescription(int32 Level)
 {
 	const int32 ScalaDamage = Damage.GetValueAtLevel(Level);
@@ -47,7 +48,7 @@ FString UAuraFireBolts::GetNextLevelDescription(int32 Level)
 		""), Level+1, ManaCost, cooldown, ScalaDamage);
 }
 
-void UAuraFireBolts::SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag, bool bOverridePitch,float PitchOverride, AActor* HomingActor)
+void UAuraFireBolts::SpawnProjectiles(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag, bool bOverridePitch,float PitchOverride, AActor* HomingActor)
 {
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer)return;
@@ -63,9 +64,9 @@ void UAuraFireBolts::SpawnProjectile(const FVector& ProjectileTargetLocation, co
 
 
 	const FVector Forward = Rotation.Vector();
-
-	TArray<FVector>Directions = UAuraAbilitySystemFunctionLibrary::EvenlyRotatedVectors(Forward, FVector::UpVector, ProjectileSpread, MaxNumProjectiles);
-	TArray<FRotator>Rotations = UAuraAbilitySystemFunctionLibrary::EvenlySpacedRotators(Forward, FVector::UpVector, ProjectileSpread, MaxNumProjectiles);
+	int32 EffectiveNumProjectiles = FMath::Min(NumProjectiles, GetAbilityLevel());
+	//TArray<FVector>Directions = UAuraAbilitySystemFunctionLibrary::EvenlyRotatedVectors(Forward, FVector::UpVector, ProjectileSpread, MaxNumProjectiles);
+	TArray<FRotator>Rotations = UAuraAbilitySystemFunctionLibrary::EvenlySpacedRotators(Forward, FVector::UpVector, ProjectileSpread, EffectiveNumProjectiles);
 
 	for (const FRotator& Rot : Rotations)
 	{
@@ -80,6 +81,22 @@ void UAuraFireBolts::SpawnProjectile(const FVector& ProjectileTargetLocation, co
 
 		Projectile->DamageEffectParams = MakeDamageEffectParamsFromClass();
 
+
+		if (HomingActor->Implements<UCombatInterface>())
+		{
+			Projectile->ProjectileMovement->HomingTargetComponent = HomingActor->GetRootComponent();
+		}
+		else
+		{
+			Projectile->HomingTargetSceneComponent= NewObject<USceneComponent>(USceneComponent::StaticClass());
+			Projectile->HomingTargetSceneComponent->SetWorldLocation(ProjectileTargetLocation);
+			Projectile->ProjectileMovement->HomingTargetComponent = Projectile->HomingTargetSceneComponent;
+		}
+		Projectile->ProjectileMovement->HomingAccelerationMagnitude = FMath::FRandRange(HomingAccelerationMin, HomingAccelerationMax);
+		
+		Projectile->ProjectileMovement->bIsHomingProjectile = bLaunchHomingProjectiles;
+		
 		Projectile->FinishSpawning(SpawnTransform);
 	}
+
 }

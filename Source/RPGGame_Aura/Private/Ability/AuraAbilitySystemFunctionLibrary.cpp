@@ -412,6 +412,40 @@ void UAuraAbilitySystemFunctionLibrary::GetLivePlayersWithinRadius(const UObject
 
 }
 
+void UAuraAbilitySystemFunctionLibrary::GetClosestTargets(int32 MaxTargets, const TArray<AActor*>& Actors, TArray<AActor*>& OutClosestTargets, const FVector& Origin)
+{
+	OutClosestTargets.Empty();
+	if (Actors.Num() <= MaxTargets)
+	{
+		OutClosestTargets = Actors;
+		return;
+	}
+	if (MaxTargets <= 0 || Actors.Num() == 0)return;
+	TArray<AActor*> ValidActors;
+	for (AActor* Actor : Actors)
+	{
+		if (IsValid(Actor))
+			ValidActors.Add(Actor);
+	}
+
+	if (ValidActors.Num() == 0)
+		return;
+
+
+	ValidActors.Sort([Origin](const AActor& A, const AActor& B)
+		{
+			float DistA = FVector::DistSquared(Origin, A.GetActorLocation());
+			float DistB = FVector::DistSquared(Origin, B.GetActorLocation());
+			return DistA < DistB;
+		});
+
+	// 取前 N 个
+	for (int32 i = 0; i < MaxTargets; ++i)
+	{
+		OutClosestTargets.Add(ValidActors[i]);
+	}
+}
+
 bool UAuraAbilitySystemFunctionLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondActor)
 {
 	if (FirstActor == nullptr || SecondActor == nullptr)

@@ -73,6 +73,12 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& Deat
 	bDead = true;
 	OnDeath.Broadcast(this);
 }
+
+USkeletalMeshComponent* AAuraCharacterBase::GetWeapon_Implementation()
+{
+	return Weapon;
+}
+
 void AAuraCharacterBase::Dissolve()
 {
 	if (DissolveMaterial)
