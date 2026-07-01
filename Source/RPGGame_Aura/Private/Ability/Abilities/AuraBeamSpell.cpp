@@ -41,20 +41,28 @@ void UAuraBeamSpell::TraceFirstTarget(const FVector& BeamTargetLocation)
 			const FVector SocketLocation = Weapon->GetSocketLocation(FName("TipSocket"));
 			UKismetSystemLibrary::SphereTraceSingle(
 				OwnerCharacter,
-				SocketLocation, 
+				SocketLocation,
 				BeamTargetLocation,
-				10.f, 
+				10.f,
 				TraceTypeQuery1,
 				false,
 				ActorsToIgnore,
 				EDrawDebugTrace::ForDuration,
-				HitResult, 
+				HitResult,
 				true
 			);
 			if (HitResult.bBlockingHit)
 			{
 				MouseHitActor = HitResult.GetActor();
 			}
+		}
+	}
+
+	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(MouseHitActor))
+	{
+		if (!CombatInterface->GetOnDeathDelegate().IsAlreadyBound(this, &UAuraBeamSpell::PrimaryTargetDied))
+		{
+			CombatInterface->GetOnDeathDelegate().AddDynamic(this, &UAuraBeamSpell::PrimaryTargetDied);
 		}
 	}
 }
@@ -80,5 +88,14 @@ void UAuraBeamSpell::StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTarget
 
 	UAuraAbilitySystemFunctionLibrary::GetClosestTargets(numAdditionTargets, OverlappingActors, OutAdditionalTargets, MouseHitActor->GetActorLocation());
 
-
+	for (AActor* Target : OutAdditionalTargets)
+	{
+		if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Target))
+		{
+			if (!CombatInterface->GetOnDeathDelegate().IsAlreadyBound(this, &UAuraBeamSpell::AdditionalTargetDied))
+			{
+				CombatInterface->GetOnDeathDelegate().AddDynamic(this, &UAuraBeamSpell::AdditionalTargetDied);
+			}
+		}
+	}
 }

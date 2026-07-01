@@ -69,7 +69,6 @@ public:
 
 	virtual void Die(const FVector& DeathImpulse) = 0;
 
-
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	bool bIsDead() const;
 
@@ -98,7 +97,7 @@ public:
 
 	virtual FOnASCRegistered GetOnASCRegisteredDelegate() = 0;
 
-	virtual FOnDeath GetOnDeathDelegate() = 0;
+	virtual FOnDeath& GetOnDeathDelegate() = 0;
 
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)

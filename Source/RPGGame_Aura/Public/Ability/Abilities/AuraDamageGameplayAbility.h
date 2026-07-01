@@ -64,4 +64,8 @@ public:
 
 	FDamageEffectParams MakeDamageEffectParamsFromClass(AActor* TargetActor=nullptr);
 
+
+	UFUNCTION(BlueprintPure)
+
+	float GetDamageAtLevel();
 };

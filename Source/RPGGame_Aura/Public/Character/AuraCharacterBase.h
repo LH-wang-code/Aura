@@ -63,7 +63,7 @@ public:
 	FOnDeath OnDeath;
 
 	virtual FOnASCRegistered GetOnASCRegisteredDelegate()override;
-	virtual FOnDeath GetOnDeathDelegate()override;
+	virtual FOnDeath& GetOnDeathDelegate()override;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UDebuffNiagaraComponent>BurnDebuffComponent;
